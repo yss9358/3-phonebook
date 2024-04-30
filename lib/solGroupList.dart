@@ -275,7 +275,7 @@ class _GroupListPageState extends State<_GroupListPage> {
           TeamVo vo = TeamVo.fromJson(response.data['apiData'][i]);
           list.add(vo);
         }
-        print(list);
+        // print(list);
         return list;
       } else {
         throw Exception('api 서버 문제');
