@@ -78,6 +78,11 @@ class _StarListPageState extends State<_StarListPage> {
                                 child: TextButton(
                                   onPressed: (){
                                     print("상세보기");
+                                    Navigator.pushNamed(
+                                        context, "/read",
+                                        arguments: {
+                                          "personNo": "${snapshot.data![index].personNo}"
+                                        });
                                   },
                                   child: Align(
                                     alignment: Alignment.centerLeft,
