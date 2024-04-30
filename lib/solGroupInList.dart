@@ -79,7 +79,12 @@ class _GroupInPageState extends State<_GroupInPage> {
                                 width: 310,
                                 child: TextButton(
                                   onPressed: (){
-                                    print("상세보기");
+                                    print("상세보기:${snapshot.data![index].name}");
+                                    Navigator.pushNamed(
+                                        context, "/read",
+                                        arguments: {
+                                          "personNo": "${snapshot.data![index].personNo}"
+                                        });
                                   },
                                   child: Align(
                                     alignment: Alignment.centerLeft,
@@ -94,9 +99,12 @@ class _GroupInPageState extends State<_GroupInPage> {
                               Container(
                                 child: IconButton(
                                   onPressed: () {
-                                    print("${index + 1}즐겨찾기 추가/삭제");
+                                    setState(() {
+                                      print("${snapshot.data![index].personNo!}즐겨찾기 추가/삭제");
+                                      starClick(snapshot.data![index].personNo!); //
+                                    });
                                   },
-                                  icon: Icon(Icons.favorite, color: snapshot.data![index].star == 1 ? Color(0xffff4040):Color(0xffd6d6d6),),
+                                  icon: Icon(Icons.favorite, color: snapshot.data![index].star! ? Color(0xffff4040):Color(0xffd6d6d6),),
                                 ),
                               ),
                             ],
@@ -132,6 +140,24 @@ Future<List<PersonVo>> getGroupList(int no) async {
         personList.add(PersonVo.fromJson(response.data["apiData"][i]));
       }
       return personList;
+    } else {
+      throw Exception('api 서버 문제');
+    }
+  } catch (e) {
+    throw Exception('Failed to load person: $e');
+  }
+}
+
+void starClick(int no) async{
+  try {
+    var dio = Dio(); //new생략
+    dio.options.headers['Content-Type'] = 'application/json';
+    final response = await dio.get(
+      'http://localhost:9000/phone3/list/star/${no}',
+    );
+    if (response.statusCode == 200) {
+      print(response.data);
+
     } else {
       throw Exception('api 서버 문제');
     }

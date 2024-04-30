@@ -104,7 +104,7 @@ class _MainListPageState extends State<_MainListPage> {
                                 child: TextButton(
                                   onPressed: () {
                                     print("${snapshot.data![index].name}");
-                                    Navigator.pushNamed(context, "/",
+                                    Navigator.pushNamed(context, "/read",
                                         arguments: {
                                           "personNo":"${snapshot.data![index].personNo}"
                                         });
