@@ -41,8 +41,8 @@ class _GroupInPageState extends State<_GroupInPage> {
   @override
   Widget build(BuildContext context) {
     // late final args = ModalRoute.of(context)!.settings.arguments as Map;
-    // late final id = int.parse(args["personNo"]) ;
-    getPersonVo = getGroupList(2);
+    // late final no = int.parse(args["teamNo"]) ;
+    getPersonVo = getGroupList(3);
 
     return FutureBuilder(
       future: getPersonVo, //Future<> 함수명, 으로 받은 데이타
