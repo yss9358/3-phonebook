@@ -86,7 +86,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   enabledBorder: OutlineInputBorder(),
-                                  hintText: '그룹명을 입력하세요.',
+                                  hintText: '그룹명으로 입력.',
 
                                 ),
                               ),
