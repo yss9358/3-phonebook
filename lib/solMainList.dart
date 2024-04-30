@@ -170,27 +170,3 @@ Future<List<PersonVo>> getMainList() async {
   }
 }
 
-Future<List<PersonVo>> getFindList() async {
-  try {
-    var dio = Dio(); //new생략
-
-    dio.options.headers['Content-Type'] = 'application/json';
-
-    final response = await dio.post(
-      'http://localhost:9000/phone3/list/find',
-    );
-
-    if (response.statusCode == 200) {
-      print(response.data);
-      List<PersonVo> personList = [];
-      for (int i = 0; i < response.data["apiData"].length; i++) {
-        personList.add(PersonVo.fromJson(response.data["apiData"][i]));
-      }
-      return personList;
-    } else {
-      throw Exception('api 서버 문제');
-    }
-  } catch (e) {
-    throw Exception('Failed to load person: $e');
-  }
-}

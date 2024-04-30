@@ -94,7 +94,7 @@ class _StarListPageState extends State<_StarListPage> {
                                   onPressed: () {
                                     print("${index + 1}즐겨찾기 추가/삭제");
                                   },
-                                  icon: Icon(Icons.favorite),
+                                  icon: Icon(Icons.favorite, color: Color(0xffff4040),),
                                 ),
                               ),
                             ],
@@ -136,4 +136,8 @@ Future<List<PersonVo>> getStarList() async {
   } catch (e) {
     throw Exception('Failed to load person: $e');
   }
+}
+
+void star(){
+
 }
