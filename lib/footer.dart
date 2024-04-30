@@ -6,7 +6,12 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
+      height: 70,
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(color: Color(0xffd6d6d6), width: 1),
+        ),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center, //세로정렬
         children: [
@@ -19,10 +24,16 @@ class Footer extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.dialpad),
+                  Icon(
+                    Icons.dialpad,
+                    color: Color(0xff737373),
+                  ),
                   Text(
                     '키패드',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xff737373),
+                    ),
                   ),
                 ],
               ),
@@ -38,10 +49,16 @@ class Footer extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.person),
+                  Icon(
+                    Icons.person,
+                    color: Color(0xff737373),
+                  ),
                   Text(
                     '연락처',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xff737373),
+                    ),
                   ),
                 ],
               ),
@@ -57,10 +74,16 @@ class Footer extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.star),
+                  Icon(
+                    Icons.favorite,
+                    color: Color(0xff737373),
+                  ),
                   Text(
                     '즐겨찾기',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xff737373),
+                    ),
                   ),
                 ],
               ),
@@ -76,10 +99,16 @@ class Footer extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.group),
+                  Icon(
+                    Icons.group,
+                    color: Color(0xff737373),
+                  ),
                   Text(
                     '그룹',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xff737373),
+                    ),
                   ),
                 ],
               ),

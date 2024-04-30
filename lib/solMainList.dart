@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'footer.dart';
 
 class MainList extends StatelessWidget {
@@ -16,7 +17,6 @@ class MainList extends StatelessWidget {
         height: 680,
         color: Color(0xffffffff),
         child: _MainListPage(),
-
       ),
     );
   }
@@ -30,6 +30,16 @@ class _MainListPage extends StatefulWidget {
 }
 
 class _MainListPageState extends State<_MainListPage> {
+
+  late Future<void> getPersonVo;
+
+  //초기화
+  @override
+  void initState() {
+    super.initState();
+    getPersonVo = getMainList();
+  }//initState
+
   //화면
   @override
   Widget build(BuildContext context) {
@@ -80,11 +90,10 @@ class _MainListPageState extends State<_MainListPage> {
                       children: [
                         Container(
                           width: 310,
-                          child: Text(
-                            "김소리",
-                            style: TextStyle(
-                              fontSize: 23,
-                            ),
+                          child: TextButton(
+                            onPressed: (){},
+                            child: Text("김소리", style: TextStyle(fontSize: 23,),),
+
                           ),
                         ),
                         Container(
@@ -105,5 +114,28 @@ class _MainListPageState extends State<_MainListPage> {
               Footer(),
       ],
     );
+  }
+}
+
+//데이터연결
+Future<void> getMainList() async{
+  try {
+    var dio = Dio(); //new생략
+
+    dio.options.headers['Content-Type'] = 'application/json';
+
+    final response = await dio.get(
+      'http://localhost:9000/phone3/list/main',
+    );
+
+    if (response.statusCode == 200) {
+      print(response.data);
+
+      // return PersonVo.fromJson(response.data["apiData"]);
+    } else {
+      throw Exception('api 서버 문제');
+    }
+  } catch (e) {
+    throw Exception('Failed to load person: $e');
   }
 }
