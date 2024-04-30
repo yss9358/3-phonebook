@@ -38,11 +38,13 @@ class _DialPageState extends State<DialPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xffffffff),
         title: Text("키패드"),
       ),
       body: Container(
         width: 414,
         height: 680,
+        color: Color(0xffffffff),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
