@@ -1,17 +1,17 @@
 class PersonVo {
 
-  int personNo;
-  String name;
-  String hp;
-  int teamNo;
-  int star;
+  int? personNo;
+  String? name;
+  String? hp;
+  int? teamNo;
+  bool? star;
 
   PersonVo({
-    required this.personNo,
-    required this.name,
-    required this.hp,
-    required this.teamNo,
-    required this.star,
+    this.personNo,
+    this.name,
+    this.hp,
+    this.teamNo,
+    this.star,
   });
 
   factory PersonVo.fromJson(Map<String, dynamic> apiData) {
