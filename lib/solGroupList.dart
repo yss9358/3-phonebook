@@ -6,7 +6,7 @@ class GroupList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:Text("그룹명")),
+      appBar: AppBar(title:Text("그룹리스트")),
     );
   }
 }
