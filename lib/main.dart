@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         '/call' : (context) => CallPage(),
         '/read' : (context) => ReadPage(),
         '/editform' : (context) => EditForm(),
-        '/write' : (context) => Writeform(),
+        // '/write' : (context) => Writeform(),
 
 
       },
