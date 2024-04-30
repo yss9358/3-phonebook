@@ -10,9 +10,9 @@ class Writeform extends StatelessWidget {
         backgroundColor: Color(0xffffffff),
         title:Text("등록폼"),),
       body: Container(
-        padding: EdgeInsets.all(10),
-        width: 414,
-        height: 680,
+        width: 414, // 고정된 가로 크기
+        height: 680, // 고정된 세로 크기
+        color: Color(0xffffffff),
         child: _Writeform(),
       ),
     );
@@ -50,14 +50,16 @@ class _WriteformState extends State<_Writeform> {
                   width: 290,
                   child: TextFormField(
                       decoration: InputDecoration(
-                          hintText: '이름을 입력해 주세요',
+                          hintText: '이름을 입력해주세요',
                           border: OutlineInputBorder()
                       )
                   ),
                 ),
                 IconButton(
-                    onPressed: (){},
-                    icon: Icon(Icons.favorite)),
+                    onPressed: (){
+                    },
+                    icon: Icon(Icons.favorite),
+                ),
               ],
             ),
             Row(
@@ -72,7 +74,7 @@ class _WriteformState extends State<_Writeform> {
                   width: 290,
                   child: TextFormField(
                       decoration: InputDecoration(
-                          hintText: '전화번호를 입력해 주세요',
+                          hintText: '전화번호를 입력해주세요',
                           border: OutlineInputBorder()
                       )
                   ),
@@ -90,94 +92,71 @@ class _WriteformState extends State<_Writeform> {
                   margin: EdgeInsets.fromLTRB(20, 0, 0, 10),
                   width: 290,
                   child: TextFormField(
-                      decoration: InputDecoration(
-                          hintText: '그룹을 선택해주세요',
-                          border: OutlineInputBorder()
-                      )
+                      decoration:InputDecoration(
+                              hintText: '전화번호를 입력해주세요',
+                              border: OutlineInputBorder()
+                          )
+                      ),
                   ),
+                  ]
                 ),
-              ],
-            ),
             Container(
-              margin: EdgeInsets.fromLTRB(0, 150, 0, 0),
+              padding: EdgeInsets.all(10),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ButtonTheme(
-                    child: ElevatedButton(
-                        onPressed: () {
+                  ElevatedButton(
+                    onPressed: () {
                       // 뒤로가기 동작 추가
                       Navigator.pop(context);
-                      },
+                    },
                     child: Text(
-                        "뒤로가기",
-                    style: TextStyle(
-                    color: Color(0xff737373),
-                    fontSize: 20), // 버튼 텍스트 색상 및 크기
+                      "뒤로가기",
+                      style: TextStyle(
+                        color: Color(0xff737373),
+                        fontSize: 20,
+                      ),
                     ),
                     style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xffd6d6d6), // 버튼 배경색
-                    shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),),
-                    minimumSize: Size(200, 60),
-                    ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  ButtonTheme(
-                    child: ElevatedButton(
-                      onPressed: () {
-                      // 삭제 동작 추가
-                      showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                      backgroundColor: Color(0xff737373), // 배경 색상 설정
-                      title: Text("삭제"),
-                      content: Text("정말로 삭제하시겠습니까?"),
-                      actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      child: Text(
-                          "취소",
-                          style: TextStyle(
-                          color: Color(0xff000000)), // 버튼 텍스트 색상
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                      // 삭제 동작 수행
-                      Navigator.pop(context);
-                        },
-                      child: Text(
-                          "삭제",
-                          style: TextStyle(
-                          color: Color(0xff000000)), // 버튼 텍스트 색상
-                        ),
-                      ),
-                      ],
-                      ),
-                      );
-                      },
-                      child: Text(
-                          "삭제",
-                      style: TextStyle(
-                      color: Color(0xff737373),
-                      fontSize: 20), // 버튼 텍스트 색상 및 크기
-                      ),
-                      style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xffd6d6d6), // 버튼 배경색
+                      backgroundColor: Color(0xffd6d6d6),
                       shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),),
-                      minimumSize: Size(200, 60),
+                        borderRadius: BorderRadius.circular(5),
                       ),
+                      minimumSize: Size(170, 60),
                     ),
                   ),
-                ]
+
+                  SizedBox(width: 10),
+
+                  ElevatedButton(
+                    onPressed: () {
+                      // 저장 동작 추가
+                      // 사용자가 입력한 값을 nameController.text, hpController.text, groupController.text를 통해 얻을 수 있어요.
+                      // 여기서는 간단하게 컨텍스트를 팝합니다.
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "저장",
+                      style: TextStyle(
+                        color: Color(0xff737373),
+                        fontSize: 20,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xffd6d6d6),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      minimumSize: Size(170, 60),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ]
+          ],
+
       ),
+
     );
   }
 }
