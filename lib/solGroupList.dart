@@ -37,9 +37,6 @@ class _GroupListPageState extends State<_GroupListPage> {
   }
 
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -66,14 +63,15 @@ class _GroupListPageState extends State<_GroupListPage> {
                         Container(
                           width: 320,
                           child: TextButton(
-                            onPressed: (){
+                            onPressed: () {
                               print("그룹리스트");
                             },
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 "그룹명",
-                                style: TextStyle(fontSize: 23, color: Color(0xff000000)),
+                                style: TextStyle(
+                                    fontSize: 23, color: Color(0xff000000)),
                                 textAlign: TextAlign.left,
                               ),
                             ),
@@ -83,8 +81,8 @@ class _GroupListPageState extends State<_GroupListPage> {
                           child: Text(
                             "(0)",
                             style: TextStyle(
-                              fontSize: 15,
-                              color: Color(0xffd6d6d6)
+                                fontSize: 15,
+                                color: Color(0xffd6d6d6)
                             ),
                           ),
                         ),
@@ -98,8 +96,4 @@ class _GroupListPageState extends State<_GroupListPage> {
       ],
     );
   }
-
-
-
-
 }
