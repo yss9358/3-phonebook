@@ -265,7 +265,8 @@ class _GroupListPageState extends State<_GroupListPage> {
       var dio = Dio();
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.get(
-        'http://localhost:9000/phone3/team',
+        'http://43.200.172.144:9000/phone3/team',
+        // 'http://localhost:9000/phone3/team'
       );
 
       if (response.statusCode == 200) {
