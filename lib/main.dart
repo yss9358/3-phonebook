@@ -29,6 +29,8 @@ class MyApp extends StatelessWidget {
         '/star' : (context) => StarList(),
         '/dial' : (context) => DialPage(),
         '/groupin' : (context) => GroupInList(),
+        'call' : (context) => CallPage(),
+
 
       },
     );
