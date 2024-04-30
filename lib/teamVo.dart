@@ -1,11 +1,11 @@
 class TeamVo {
 
-  int teamNo;
-  String teamName;
+  int? teamNo;
+  String? teamName;
 
   TeamVo({
-    required this.teamNo,
-    required this.teamName
+    this.teamNo,
+    this.teamName
   });
 
   factory TeamVo.fromJson(Map<String, dynamic> apiData) {
