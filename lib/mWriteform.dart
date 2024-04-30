@@ -41,7 +41,7 @@ class _WriteformState extends State<_Writeform> {
             Row(
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: Icon(
                     Icons.person,),
                 ),
@@ -63,7 +63,7 @@ class _WriteformState extends State<_Writeform> {
             Row(
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: Icon(
                     Icons.call,),
                 ),
@@ -82,7 +82,7 @@ class _WriteformState extends State<_Writeform> {
             Row(
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: Icon(
                     Icons.group,),
                 ),
