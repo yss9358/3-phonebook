@@ -30,6 +30,16 @@ class _GroupListPage extends StatefulWidget {
 }
 
 class _GroupListPageState extends State<_GroupListPage> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -88,4 +98,8 @@ class _GroupListPageState extends State<_GroupListPage> {
       ],
     );
   }
+
+
+
+
 }

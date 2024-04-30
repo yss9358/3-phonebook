@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'solMainList.dart';
 import 'solGroupList.dart';
 import 'solStarList.dart';
+import 'dial.dart';
+import 'solGroupInList.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -19,11 +22,14 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: '/',
+      initialRoute: '/group',
       routes: {
         '/' : (context) => MainList(),
         '/group' : (context) => GroupList(),
         '/star' : (context) => StarList(),
+        '/dial' : (context) => DialPage(),
+        '/groupin' : (context) => GroupInList(),
+
       },
     );
   }
