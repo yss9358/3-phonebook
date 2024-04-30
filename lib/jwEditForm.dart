@@ -45,6 +45,7 @@ class EditForm extends StatelessWidget {
                         controller: nameController,
                         decoration: InputDecoration(
                           hintText: '이름을 입력해 주세요',
+
                           border: OutlineInputBorder(),
                         ),
                       ),
