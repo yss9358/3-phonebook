@@ -50,14 +50,16 @@ class _WriteformState extends State<_Writeform> {
                   width: 290,
                   child: TextFormField(
                       decoration: InputDecoration(
-                          hintText: '이름을 입력해 주세요',
+                          hintText: '이름을 입력해주세요',
                           border: OutlineInputBorder()
                       )
                   ),
                 ),
                 IconButton(
-                    onPressed: (){},
-                    icon: Icon(Icons.favorite)),
+                    onPressed: (){
+                    },
+                    icon: Icon(Icons.favorite),
+                ),
               ],
             ),
             Row(
@@ -72,7 +74,7 @@ class _WriteformState extends State<_Writeform> {
                   width: 290,
                   child: TextFormField(
                       decoration: InputDecoration(
-                          hintText: '전화번호를 입력해 주세요',
+                          hintText: '전화번호를 입력해주세요',
                           border: OutlineInputBorder()
                       )
                   ),
@@ -90,11 +92,13 @@ class _WriteformState extends State<_Writeform> {
                   margin: EdgeInsets.fromLTRB(20, 0, 0, 10),
                   width: 290,
                   child: TextFormField(
-                      decoration: InputDecoration(
-                          hintText: '그룹을 선택해주세요',
-                          border: OutlineInputBorder()
-                      )
+                      decoration:InputDecoration(
+                              hintText: '전화번호를 입력해주세요',
+                              border: OutlineInputBorder()
+                          )
+                      ),
                   ),
+                  ]
                 ),
               ],
             ),
