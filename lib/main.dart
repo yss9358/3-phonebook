@@ -5,6 +5,8 @@ import 'solStarList.dart';
 import 'dial.dart';
 import 'solGroupInList.dart';
 import 'call.dart';
+import 'jwread.dart';
+import 'jwEditForm.dart';
 
 
 void main() {
@@ -31,6 +33,8 @@ class MyApp extends StatelessWidget {
         '/dial' : (context) => DialPage(),
         '/groupin' : (context) => GroupInList(),
         '/call' : (context) => CallPage(),
+        '/read' : (context) => ReadPage(),
+        '/editform' : (context) => EditForm()
 
 
       },
