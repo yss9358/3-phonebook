@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'footer.dart';
 
 class GroupList extends StatelessWidget {
