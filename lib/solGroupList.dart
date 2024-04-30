@@ -39,6 +39,11 @@ class _GroupListPageState extends State<_GroupListPage> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _groupNameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,18 +66,23 @@ class _GroupListPageState extends State<_GroupListPage> {
                             child: AlertDialog(
                               backgroundColor: Color(0xffffffff),
                               title: Container(
-                                alignment: Alignment.center,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  // border: Border.all(width: 1)
-                                ),
-                                child: Text('그룹 추가',style: TextStyle(fontSize: 23),)),
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    // border: Border.all(width: 1)
+                                  ),
+                                  child: Text('그룹 추가',style: TextStyle(fontSize: 23),)),
                               content: TextFormField(
+
                                 style: TextStyle(fontSize: 23),
+                                maxLength: 10,
                                 controller: _groupNameController,
                                 // textAlign: TextAlign.center,
                                 decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  enabledBorder: OutlineInputBorder(),
                                   hintText: '그룹명을 입력하세요.',
+
                                 ),
                               ),
                               actions: [
@@ -89,13 +99,8 @@ class _GroupListPageState extends State<_GroupListPage> {
                                     ),
                                     Container(
                                       width: 100,
-
                                       child: TextButton(onPressed: (){
-                                        setState(() {
-                                          _groupNameController.text = '';
-                                        });
                                         Navigator.pop(context);
-
                                       },
                                           child: Text('뒤로가기')),
                                     ),
@@ -131,7 +136,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                         child: Row(
                           children: [
                             Container(
-                              width: 250,
+                              width: 270,
                               child: TextButton(
                                 onPressed: () {
                                   print("그룹리스트");
@@ -155,6 +160,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                               ),
                             ),
                             Container(
+                              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                               child: Text(
                                 "(0)",
                                 style: TextStyle(
@@ -164,7 +170,63 @@ class _GroupListPageState extends State<_GroupListPage> {
                               ),
                             ),
                             Container(
-                              child: Text('[삭제]'),
+                              child: TextButton(
+                                onPressed:(){
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context){
+                                        return Center(
+                                          child: AlertDialog(
+                                            backgroundColor: Color(0xffffffff),
+                                            title: Container(
+                                                alignment: Alignment.center,
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                  // border: Border.all(width: 1)
+                                                ),
+                                                child: Text(
+                                                  '그룹 삭제',
+                                                  style: TextStyle(fontSize: 23),
+                                                )
+                                            ),
+                                            content: Container(
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                '삭제하시겠습니까?',
+                                                style: TextStyle(fontSize: 23),
+                                                // textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            actions: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 100,
+                                                    child: TextButton(onPressed: (){
+                                                      Navigator.pop(context);
+                                                    },
+                                                        child: Text('삭제')),
+                                                  ),
+                                                  Container(
+                                                    width: 100,
+                                                    child: TextButton(onPressed: (){
+                                                      Navigator.pop(context);
+                                                    },
+                                                        child: Text('뒤로가기')),
+                                                  ),
+                                                ],
+                                              ),
+
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                  );
+                                },
+                                child: Text('[삭제]',style: TextStyle(fontSize: 15,color: Color(0xff000000)),),),
                             )
                           ],
                         ),
