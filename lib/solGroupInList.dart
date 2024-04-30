@@ -31,6 +31,7 @@ class _GroupInPage extends StatefulWidget {
 }
 
 class _GroupInPageState extends State<_GroupInPage> {
+
   late Future<List<PersonVo>> getPersonVo;
 
   //초기화
@@ -40,10 +41,10 @@ class _GroupInPageState extends State<_GroupInPage> {
   }
   @override
   Widget build(BuildContext context) {
-    // late final args = ModalRoute.of(context)!.settings.arguments as Map;
-    // late final no = int.parse(args["teamNo"]) ;
-    getPersonVo = getGroupList(3);
-
+    late final args = ModalRoute.of(context)!.settings.arguments as Map;
+    late final no = args["teamNo"];
+    print("그룹별 리스트: ${no}");
+    getPersonVo = getGroupList(no);
     return FutureBuilder(
       future: getPersonVo, //Future<> 함수명, 으로 받은 데이타
       builder: (context, snapshot) {
