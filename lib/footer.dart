@@ -33,6 +33,7 @@ class Footer extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 print("연락처");
+                Navigator.pushNamed(context, "/");
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -51,6 +52,7 @@ class Footer extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 print("즐겨찾기");
+                Navigator.pushNamed(context, "/star");
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -69,6 +71,7 @@ class Footer extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 print("그룹");
+                Navigator.pushNamed(context, "/group");
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
