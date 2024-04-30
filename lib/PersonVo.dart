@@ -5,6 +5,7 @@ class PersonVo {
   String? hp;
   int? teamNo;
   bool? star;
+  String? teamName;
 
   PersonVo({
     this.personNo,
@@ -12,6 +13,7 @@ class PersonVo {
     this.hp,
     this.teamNo,
     this.star,
+    this.teamName,
   });
 
   factory PersonVo.fromJson(Map<String, dynamic> apiData) {
@@ -21,6 +23,7 @@ class PersonVo {
       hp: apiData['hp'],
       teamNo: apiData['teamNo'],
       star: apiData['star'],
+      teamName: apiData['teamName'],
     );
   }
   Map<String, dynamic> toJson() {
@@ -30,6 +33,7 @@ class PersonVo {
       'hp': hp,
       'teamNo': teamNo,
       'star': star,
+      'teamName': teamName,
     };
   }
 }
