@@ -18,7 +18,7 @@ class ReadPage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // 편집_EditForm 동작 추가
-                  Navigator.pop(context);
+                  Navigator.pushNamed( context, '/editform', );
                 },
                 child: Text(
                   "편집",
@@ -185,7 +185,7 @@ class ReadPage extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            backgroundColor: Color(0xff737373), // 배경 색상 설정
+                            //backgroundColor: Color(0xffffffff), // 배경 색상 설정
                             title: Text("삭제"),
                             content: Text("정말로 삭제하시겠습니까?"),
                             actions: [
