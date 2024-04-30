@@ -10,9 +10,9 @@ class Writeform extends StatelessWidget {
         backgroundColor: Color(0xffffffff),
         title:Text("등록폼"),),
       body: Container(
-        padding: EdgeInsets.all(10),
-        width: 414,
-        height: 680,
+        width: 414, // 고정된 가로 크기
+        height: 680, // 고정된 세로 크기
+        color: Color(0xffffffff),
         child: _Writeform(),
       ),
     );
