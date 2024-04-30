@@ -4,6 +4,7 @@ import 'solGroupList.dart';
 import 'solStarList.dart';
 import 'dial.dart';
 import 'solGroupInList.dart';
+import 'call.dart';
 
 
 void main() {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         '/star' : (context) => StarList(),
         '/dial' : (context) => DialPage(),
         '/groupin' : (context) => GroupInList(),
-        'call' : (context) => CallPage(),
+        '/call' : (context) => CallPage(),
 
 
       },
