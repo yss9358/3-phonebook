@@ -54,11 +54,18 @@ class _GroupListPageState extends State<_GroupListPage> {
                     child: Row(
                       children: [
                         Container(
-                          width: 330,
-                          child: Text(
-                            "그룹명",
-                            style: TextStyle(
-                              fontSize: 23,
+                          width: 320,
+                          child: TextButton(
+                            onPressed: (){
+                              print("그룹리스트");
+                            },
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "그룹명",
+                                style: TextStyle(fontSize: 23, color: Color(0xff000000)),
+                                textAlign: TextAlign.left,
+                              ),
                             ),
                           ),
                         ),

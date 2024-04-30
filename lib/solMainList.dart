@@ -91,9 +91,17 @@ class _MainListPageState extends State<_MainListPage> {
                         Container(
                           width: 310,
                           child: TextButton(
-                            onPressed: (){},
-                            child: Text("김소리", style: TextStyle(fontSize: 23,),),
-
+                            onPressed: (){
+                              print("상세보기");
+                            },
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "김소리",
+                                style: TextStyle(fontSize: 23, color: Color(0xff000000)),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
                           ),
                         ),
                         Container(

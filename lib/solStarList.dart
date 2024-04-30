@@ -55,10 +55,17 @@ class _StarListPageState extends State<_StarListPage> {
                       children: [
                         Container(
                           width: 310,
-                          child: Text(
-                            "김소리",
-                            style: TextStyle(
-                              fontSize: 23,
+                          child: TextButton(
+                            onPressed: (){
+                              print("상세보기");
+                            },
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "김소리",
+                                style: TextStyle(fontSize: 23, color: Color(0xff000000)),
+                                textAlign: TextAlign.left,
+                              ),
                             ),
                           ),
                         ),
