@@ -20,6 +20,7 @@ class Footer extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 print("키패드");
+                Navigator.pushNamed(context, "/dial");
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
