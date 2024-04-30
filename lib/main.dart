@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget {
         '/groupin' : (context) => GroupInList(),
         '/call' : (context) => CallPage(),
         '/read' : (context) => ReadPage(),
-        '/editform' : (context) => EditForm()
+        '/editform' : (context) => EditForm(),
+        '/write' : (context) => Writeform(),
 
 
       },
