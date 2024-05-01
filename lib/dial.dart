@@ -33,10 +33,7 @@ class _DialPageState extends State<DialPage> {
         phoneNumber += '-';
       }
       phoneNumber += value;
-
-      if (mounted) {
-        personVoFuture = getPersonInfo(phoneNumber);
-      }
+      personVoFuture = getPersonInfo(phoneNumber);
     });
   }
 
@@ -46,13 +43,9 @@ class _DialPageState extends State<DialPage> {
         phoneNumber = phoneNumber.substring(0, phoneNumber.length - 1);
         if (phoneNumber.isNotEmpty) {
           // 번호가 비어있지 않은 경우에만 데이터 가져오기
-          if (mounted) {
-            personVoFuture = getPersonInfo(phoneNumber);
-          }
+          personVoFuture = getPersonInfo(phoneNumber);
         } else {
-          if (mounted) {
-            personVoFuture = Future.value([]);
-          }
+          personVoFuture = Future.value([]);
         }
       }
     });
@@ -88,25 +81,29 @@ class _DialPageState extends State<DialPage> {
                         hintText: phoneNumber,
                       ),
                     ),
-                  ),// 간격 추가
+                  ), // 간격 추가
                   Expanded(
                     child: SingleChildScrollView(
                       child: FutureBuilder<List<PersonVo>>(
                         future: personVoFuture,
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
+                          if (snapshot.connectionState == ConnectionState
+                              .waiting) {
                             return Center(child: CircularProgressIndicator());
                           } else if (snapshot.hasError) {
-                            return Center(child: Text('Error: ${snapshot.error}'));
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
                           } else if (snapshot.hasData) {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 for (var person in snapshot.data!)
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
                                     children: [
-                                      Text("${person.name}  ${person.hp}", style: TextStyle(fontSize: 16),),
+                                      Text("${person.name}  ${person.hp}",
+                                        style: TextStyle(fontSize: 16),),
                                       SizedBox(height: 8), // 각 항목 사이에 간격 추가
                                     ],
                                   ),
@@ -126,7 +123,7 @@ class _DialPageState extends State<DialPage> {
             Expanded(
               flex: 5, // 다이얼 위
               child: Container(
-                padding: const EdgeInsets.fromLTRB(4, 0, 8, 2),
+                padding: const EdgeInsets.fromLTRB(4, 0, 6, 2),
                 child: Column(
                   children: [
                     Expanded(
@@ -236,12 +233,13 @@ class _DialPageState extends State<DialPage> {
           color: number == -1 ? Colors.red : Color(0xffd6d6d6),
           shape: BoxShape.circle,
         ),
-        child: number == -1 ? Icon(Icons.backspace) : Text('$number', style: TextStyle(fontSize: 24)), // Increased font size
+        child: number == -1 ? Icon(Icons.backspace) : Text(
+            '$number', style: TextStyle(fontSize: 24)), // Increased font size
       ),
     );
   }
 
-  Future<List<PersonVo>> getPersonInfo(String phoneNumber) async{
+  Future<List<PersonVo>> getPersonInfo(String phoneNumber) async {
     //print("getPersonInfo(): 데이터 가져오는 중");
     try {
       /*----요청처리-------------------*/
@@ -262,25 +260,27 @@ class _DialPageState extends State<DialPage> {
         //print(response.data); // json->map 자동변경
         //print(response.data["result"]);
 
-        List<PersonVo> personList = [];
-        for(int i=0; i<response.data["apiData"].length; i++){
-          PersonVo personVo = PersonVo.fromJson(response.data["apiData"][i]);
-          personList.add(personVo);
+        if (response.data["apiData"] != null &&
+            response.data["apiData"].isNotEmpty) {
+          List<PersonVo> personList = [];
+          for (int i = 0; i < response.data["apiData"].length; i++) {
+            PersonVo personVo = PersonVo.fromJson(response.data["apiData"][i]);
+            personList.add(personVo);
+          }
+          //print(personList);
+          return personList;
+        } else {
+          // Handle case when apiData is null or empty
+          return [];
         }
-        //print(personList);
-        return personList;
-
       } else {
-        //접속실패 404, 502등등 api서버 문제
         throw Exception('api 서버 문제');
       }
     } catch (e) {
-      //예외 발생
       throw Exception('Failed to load person: $e');
     }
   }
 }
-
 void main() {
   runApp(MaterialApp(
     home: DialPage(),
