@@ -27,8 +27,8 @@ class _Writeform extends StatefulWidget {
 }
 
 class _WriteformState extends State<_Writeform> {
-  final _groupList = ['즐겨찾기','가족','친구'];
-  var _selectedGroup = '즐겨찾기';
+  final _groupList = ['그룹선택해주세요','즐겨찾기','가족','친구'];
+  var _selectedGroup = '그룹선택해주세요';
   bool isFavorite = false;
 
   @override
