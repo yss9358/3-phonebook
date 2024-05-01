@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'footer.dart';
+import 'PersonVo.dart';
+import 'package:dio/dio.dart';
 
 class DialPage extends StatefulWidget {
   const DialPage({super.key});
@@ -10,6 +12,14 @@ class DialPage extends StatefulWidget {
 
 class _DialPageState extends State<DialPage> {
   String phoneNumber = '';
+  late Future<List<PersonVo>> personVoFuture;
+
+  //초기화함수 (1번만 실행됨)
+  @override
+  void initState() {
+    super.initState();
+    personVoFuture = Future.value([]);
+  }
 
   void _updatePhoneNumber(String newNumber) {
     setState(() {
@@ -23,6 +33,10 @@ class _DialPageState extends State<DialPage> {
         phoneNumber += '-';
       }
       phoneNumber += value;
+
+      if (mounted) {
+        personVoFuture = getPersonInfo(phoneNumber);
+      }
     });
   }
 
@@ -30,6 +44,16 @@ class _DialPageState extends State<DialPage> {
     setState(() {
       if (phoneNumber.isNotEmpty) {
         phoneNumber = phoneNumber.substring(0, phoneNumber.length - 1);
+        if (phoneNumber.isNotEmpty) {
+          // 번호가 비어있지 않은 경우에만 데이터 가져오기
+          if (mounted) {
+            personVoFuture = getPersonInfo(phoneNumber);
+          }
+        } else {
+          if (mounted) {
+            personVoFuture = Future.value([]);
+          }
+        }
       }
     });
   }
@@ -49,24 +73,60 @@ class _DialPageState extends State<DialPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              flex: 1,
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
-                child: TextField(
-                  textAlign: TextAlign.center,
-                  readOnly: true,
-                  style: TextStyle(fontSize: 28), // Increased font size
-                  decoration: InputDecoration(
-                    border: InputBorder.none, // Removed underline
-                    hintText: phoneNumber, // Displayed entered number as hint
+              flex: 2, // phoneNumber 입력 창 아래
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      onChanged: _updatePhoneNumber,
+                      readOnly: true,
+                      style: TextStyle(fontSize: 28),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: phoneNumber,
+                      ),
+                    ),
+                  ),// 간격 추가
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: FutureBuilder<List<PersonVo>>(
+                        future: personVoFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text('Error: ${snapshot.error}'));
+                          } else if (snapshot.hasData) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                for (var person in snapshot.data!)
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("${person.name}  ${person.hp}", style: TextStyle(fontSize: 16),),
+                                      SizedBox(height: 8), // 각 항목 사이에 간격 추가
+                                    ],
+                                  ),
+                              ],
+                            );
+                          } else {
+                            return SizedBox.shrink();
+                          }
+                        },
+                      ),
+                    ),
                   ),
-                ),
+
+                ],
               ),
             ),
             Expanded(
-              flex: 4,
+              flex: 5, // 다이얼 위
               child: Container(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                padding: const EdgeInsets.fromLTRB(4, 0, 8, 2),
                 child: Column(
                   children: [
                     Expanded(
@@ -104,7 +164,7 @@ class _DialPageState extends State<DialPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _buildDialButton('*'),
-                          _buildDialButton('0'), // Placeholder for space
+                          _buildDialButton('0'),
                           _buildDialButton('#'),
                         ],
                       ),
@@ -115,17 +175,15 @@ class _DialPageState extends State<DialPage> {
                         children: [
                           SizedBox(width: 80),
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               print("전화 걸기");
-                              Navigator.pushNamed( context,  '/call',
-                                  arguments: {
-                                    "phoneNumber": this.phoneNumber
-                                  }
-                              );
+                              Navigator.pushNamed(context, '/call', arguments: {
+                                "phoneNumber": this.phoneNumber
+                              });
                             },
                             child: Container(
-                              width: 80,
-                              height: 80,
+                              width: 70,
+                              height: 70,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.green,
@@ -136,8 +194,8 @@ class _DialPageState extends State<DialPage> {
                           InkWell(
                             onTap: _clearPhoneNumber,
                             child: Container(
-                              width: 80,
-                              height: 80,
+                              width: 70,
+                              height: 70,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.red,
@@ -181,6 +239,45 @@ class _DialPageState extends State<DialPage> {
         child: number == -1 ? Icon(Icons.backspace) : Text('$number', style: TextStyle(fontSize: 24)), // Increased font size
       ),
     );
+  }
+
+  Future<List<PersonVo>> getPersonInfo(String phoneNumber) async{
+    //print("getPersonInfo(): 데이터 가져오는 중");
+    try {
+      /*----요청처리-------------------*/
+      //Dio 객체 생성 및 설정
+      var dio = Dio();
+
+      // 헤더설정:json으로 전송
+      dio.options.headers['Content-Type'] = 'application/json';
+
+      // 서버 요청
+      final response = await dio.get(
+        'http://localhost:9000/phone3/search/${phoneNumber}',
+      );
+
+      /*----응답처리-------------------*/
+      if (response.statusCode == 200) {
+        //접속성공 200 이면
+        //print(response.data); // json->map 자동변경
+        //print(response.data["result"]);
+
+        List<PersonVo> personList = [];
+        for(int i=0; i<response.data["apiData"].length; i++){
+          PersonVo personVo = PersonVo.fromJson(response.data["apiData"][i]);
+          personList.add(personVo);
+        }
+        //print(personList);
+        return personList;
+
+      } else {
+        //접속실패 404, 502등등 api서버 문제
+        throw Exception('api 서버 문제');
+      }
+    } catch (e) {
+      //예외 발생
+      throw Exception('Failed to load person: $e');
+    }
   }
 }
 
