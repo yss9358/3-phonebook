@@ -123,7 +123,6 @@ class _GroupListPageState extends State<_GroupListPage> {
                                               child: TextButton(onPressed: (){
                                                 insertTeam();
                                                 Navigator.pop(context);
-
                                               },
                                                   child: Text('추가')),
                                             ),
@@ -200,7 +199,6 @@ class _GroupListPageState extends State<_GroupListPage> {
                                     Container(
                                       child: TextButton(
                                         onPressed: (){
-                                          print('수정하기');
                                           _groupNameController.text = '${snapshot.data![index].teamName}';
                                           showDialog(
                                               context: context,
@@ -241,8 +239,8 @@ class _GroupListPageState extends State<_GroupListPage> {
                                                           Container(
                                                             width: 100,
                                                             child: TextButton(onPressed: (){
-                                                              print('수정');
-                                                              // Navigator.pop(context);
+                                                              updateTeam(snapshot.data![index].teamNo!);
+                                                              Navigator.pop(context);
                                                             },
                                                                 child: Text('수정')),
                                                           ),
@@ -341,16 +339,29 @@ class _GroupListPageState extends State<_GroupListPage> {
 
   // 수정
   Future<void> updateTeam(int no) async {
-    print('수정하기');
     try{
       var dio = Dio();
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.put(
         // 'http://43.200.172.144:9000/phone3/teams',
-        'http://localhost:9000/phone3/teams/${no}'
+        'http://localhost:9000/phone3/teams',
+        data: {
+          'teamName' : _groupNameController.text,
+          'teamNo' : no
+        }
       );
 
-
+      if(response.statusCode == 200){
+        if(response.data.apiData == 1){
+          setState(() {
+            print('수정 성공');
+          });
+        } else {
+          throw Exception('api 서버 문제');
+        }
+      } else {
+        throw Exception('api 서버 문제');
+      }
     } catch(e){
       throw Exception('Failed to load person: $e');
     }
@@ -396,11 +407,8 @@ class _GroupListPageState extends State<_GroupListPage> {
       );
 
       if(response.statusCode == 200){
-        // print(response.data['apiData']);
         if(response.data['apiData'] == 1 && response.data['apiData'] != null){
-          setState(() {
-            print('추가성공');
-          });
+          print('추가성공');
         }
       } else {
         throw Exception('api 서버 문제');
