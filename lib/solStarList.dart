@@ -98,8 +98,12 @@ class _StarListPageState extends State<_StarListPage> {
                                 child: IconButton(
                                   onPressed: () {
                                     print("${index + 1}즐겨찾기 추가/삭제");
+                                    setState(() {
+                                      snapshot.data![index].star = !snapshot.data![index].star!;
+                                      starClick(snapshot.data![index].personNo!);
+                                    });
                                   },
-                                  icon: Icon(Icons.favorite, color: Color(0xffff4040),),
+                                  icon: Icon(Icons.favorite, color: snapshot.data![index].star! ? Color(0xffff4040):Color(0xffd6d6d6),),
                                 ),
                               ),
                             ],
@@ -144,6 +148,21 @@ Future<List<PersonVo>> getStarList() async {
   }
 }
 
-void star(){
+void starClick(int no) async{
+  try {
+    var dio = Dio(); //new생략
+    dio.options.headers['Content-Type'] = 'application/json';
+    final response = await dio.post(
+      // 'http://43.200.172.144:9000/phone3/list/star/${no}',
+        'http://localhost:9000/phone3/list/star/${no}'
+    );
+    if (response.statusCode == 200) {
+      print(response.data);
 
+    } else {
+      throw Exception('api 서버 문제');
+    }
+  } catch (e) {
+    throw Exception('Failed to load person: $e');
+  }
 }

@@ -43,6 +43,7 @@ class _MainListPageState extends State<_MainListPage> {
   //화면
   @override
   Widget build(BuildContext context) {
+    TextEditingController _fineController = TextEditingController();
     return FutureBuilder(
       future: getPersonVo, //Future<> 함수명, 으로 받은 데이타
       builder: (context, snapshot) {
@@ -64,6 +65,10 @@ class _MainListPageState extends State<_MainListPage> {
                     width: 340,
                     height: 50,
                     child: TextFormField(
+                      controller: _fineController,
+                      onChanged: (text) {
+                        getfindList(text);
+                      },
                       decoration: InputDecoration(
                         hintText: '검색',
                         label: Icon(Icons.search),
@@ -74,7 +79,9 @@ class _MainListPageState extends State<_MainListPage> {
                   Container(
                     // margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/write");
+                      },
                       icon: Icon(Icons.add),
                     ),
                   ),
@@ -106,7 +113,8 @@ class _MainListPageState extends State<_MainListPage> {
                                     print("${snapshot.data![index].name}");
                                     Navigator.pushNamed(context, "/read",
                                         arguments: {
-                                          "personNo":"${snapshot.data![index].personNo}"
+                                          "personNo":
+                                              "${snapshot.data![index].personNo}"
                                         });
                                   },
                                   child: Align(
@@ -124,7 +132,11 @@ class _MainListPageState extends State<_MainListPage> {
                               Container(
                                 child: IconButton(
                                   onPressed: () {
-                                    print("${index + 1}전화걸기");
+                                    print("${snapshot.data![index].hp}전화걸기");
+                                    Navigator.pushNamed(context, "/call",
+                                        arguments: {
+                                          "hp": "${snapshot.data![index].hp}"
+                                        });
                                   },
                                   icon: Icon(Icons.call),
                                 ),
@@ -150,9 +162,8 @@ Future<List<PersonVo>> getMainList() async {
     var dio = Dio(); //new생략
     dio.options.headers['Content-Type'] = 'application/json';
     final response = await dio.get(
-      // 'http://43.200.172.144:9000/phone3/list/main',
-      'http://localhost:9000/phone3/list/main'
-    );
+        // 'http://43.200.172.144:9000/phone3/list/main',
+        'http://localhost:9000/phone3/list/main');
     if (response.statusCode == 200) {
       print(response.data);
 
@@ -171,3 +182,30 @@ Future<List<PersonVo>> getMainList() async {
   }
 }
 
+//검색
+Future<List<PersonVo>> getfindList(String keyword) async {
+  try {
+    var dio = Dio(); //new생략
+    dio.options.headers['Content-Type'] = 'application/json';
+    final response = await dio.post(
+      // 'http://43.200.172.144:9000/phone3/list/main',
+      'http://localhost:9000/phone3/list/find',
+      data: {"keyword": keyword},
+    );
+    if (response.statusCode == 200) {
+      print(response.data);
+
+      //리스트생성
+      List<PersonVo> personList = [];
+      for (int i = 0; i < response.data["apiData"].length; i++) {
+        //api데이터 저장하기
+        personList.add(PersonVo.fromJson(response.data["apiData"][i]));
+      }
+      return personList;
+    } else {
+      throw Exception('api 서버 문제');
+    }
+  } catch (e) {
+    throw Exception('Failed to load person: $e');
+  }
+}

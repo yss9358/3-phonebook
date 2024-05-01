@@ -102,6 +102,7 @@ class _GroupInPageState extends State<_GroupInPage> {
                                   onPressed: () {
                                     setState(() {
                                       print("${snapshot.data![index].personNo!}즐겨찾기 추가/삭제");
+                                      snapshot.data![index].star = !snapshot.data![index].star!;
                                       starClick(snapshot.data![index].personNo!); //
                                     });
                                   },
@@ -151,10 +152,11 @@ Future<List<PersonVo>> getGroupList(int no) async {
 }
 
 void starClick(int no) async{
+  // print(no);
   try {
     var dio = Dio(); //new생략
     dio.options.headers['Content-Type'] = 'application/json';
-    final response = await dio.get(
+    final response = await dio.post(
       // 'http://43.200.172.144:9000/phone3/list/star/${no}',
       'http://localhost:9000/phone3/list/star/${no}'
     );
