@@ -32,21 +32,23 @@ class _MainListPage extends StatefulWidget {
 
 class _MainListPageState extends State<_MainListPage> {
   late Future<List<PersonVo>> getPersonVo;
-  bool find = false;
+  late TextEditingController _fineController;
+
   //초기화
   @override
   void initState() {
     super.initState();
-    if(!find){
-      getPersonVo = getMainList();
-    }
+    _fineController = TextEditingController();
   } //initState
 
   //화면
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _fineController = TextEditingController();
+    bool isFind = false;
 
+    if (!isFind) {
+      getPersonVo = getMainList();
+    }
     return FutureBuilder(
       future: getPersonVo, //Future<> 함수명, 으로 받은 데이타
       builder: (context, snapshot) {
@@ -56,7 +58,8 @@ class _MainListPageState extends State<_MainListPage> {
           return Center(child: Text('데이터를 불러오는 데 실패했습니다.'));
         } else if (!snapshot.hasData) {
           return Center(child: Text('데이터가 없습니다.'));
-        } else { //데이터가 있으면
+        } else {
+          //데이터가 있으면
           return Column(
             children: [
               Row(
@@ -69,9 +72,7 @@ class _MainListPageState extends State<_MainListPage> {
                     child: TextFormField(
                       controller: _fineController,
                       onChanged: (text) {
-                        find = true;
-                        print(text);
-                          getPersonVo = getfindList(text); // 변경된 검색어를 전달
+                        getfindList(text);
                       },
                       decoration: InputDecoration(
                         hintText: '검색',
@@ -158,58 +159,60 @@ class _MainListPageState extends State<_MainListPage> {
       },
     );
   }
-}
 
-//데이터연결
-Future<List<PersonVo>> getMainList() async {
-  try {
-    var dio = Dio(); //new생략
-    dio.options.headers['Content-Type'] = 'application/json';
-    final response = await dio.get(
-        // 'http://43.200.172.144:9000/phone3/list/main',
-        'http://localhost:9000/phone3/list/main');
-    if (response.statusCode == 200) {
-      // print(response.data);
+  Future<List<PersonVo>> getMainList() async {
+    try {
+      var dio = Dio(); //new생략
+      dio.options.headers['Content-Type'] = 'application/json';
+      final response = await dio.get(
+          // 'http://43.200.172.144:9000/phone3/list/main',
+          'http://localhost:9000/phone3/list/main');
+      if (response.statusCode == 200) {
+        // print(response.data);
 
-      //리스트생성
-      List<PersonVo> personList = [];
-      for (int i = 0; i < response.data["apiData"].length; i++) {
-        //api데이터 저장하기
-        personList.add(PersonVo.fromJson(response.data["apiData"][i]));
+        //리스트생성
+        List<PersonVo> personList = [];
+        for (int i = 0; i < response.data["apiData"].length; i++) {
+          //api데이터 저장하기
+          personList.add(PersonVo.fromJson(response.data["apiData"][i]));
+        }
+        return personList;
+      } else {
+        throw Exception('api 서버 문제');
       }
-      return personList;
-    } else {
-      throw Exception('api 서버 문제');
+    } catch (e) {
+      throw Exception('Failed to load person: $e');
     }
-  } catch (e) {
-    throw Exception('Failed to load person: $e');
   }
-}
 
 //검색
 Future<List<PersonVo>> getfindList(String keyword) async {
-  try {
-    var dio = Dio(); //new생략
-    dio.options.headers['Content-Type'] = 'application/json';
-    final response = await dio.post(
-      // 'http://43.200.172.144:9000/phone3/list/main',
-      'http://localhost:9000/phone3/list/find',
-      data: {"keyword": keyword},
-    );
-    if (response.statusCode == 200) {
-      print(response.data);
+//   Future<List<PersonVo>> getfindList() async {
+    // print(keyword);
+    try {
+      var dio = Dio(); //new생략
+      dio.options.headers['Content-Type'] = 'application/json';
+      final response = await dio.post(
+        // 'http://43.200.172.144:9000/phone3/list/main',
+        'http://localhost:9000/phone3/list/find',
+        // data: _fineController.text,
+        data: keyword,
+      );
+      if (response.statusCode == 200) {
+        print(response.data);
 
-      //리스트생성
-      List<PersonVo> personList = [];
-      for (int i = 0; i < response.data["apiData"].length; i++) {
-        //api데이터 저장하기
-        personList.add(PersonVo.fromJson(response.data["apiData"][i]));
+        //리스트생성
+        List<PersonVo> personList = [];
+        for (int i = 0; i < response.data["apiData"].length; i++) {
+          //api데이터 저장하기
+          personList.add(PersonVo.fromJson(response.data["apiData"][i]));
+        }
+        return personList;
+      } else {
+        throw Exception('api 서버 문제');
       }
-      return personList;
-    } else {
-      throw Exception('api 서버 문제');
+    } catch (e) {
+      throw Exception('Failed to load person: $e');
     }
-  } catch (e) {
-    throw Exception('Failed to load person: $e');
   }
 }
