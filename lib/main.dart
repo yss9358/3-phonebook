@@ -37,8 +37,6 @@ class MyApp extends StatelessWidget {
         '/read' : (context) => ReadPage(),
         '/editform' : (context) => EditForm(),
         '/write' : (context) => Writeform(),
-
-
       },
     );
   }
