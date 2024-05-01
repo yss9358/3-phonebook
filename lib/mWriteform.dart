@@ -168,3 +168,12 @@ class _WriteformState extends State<_Writeform> {
 
   }
 }
+Color _favorite(bool isFavorite){
+  if(isFavorite == true){
+    //코드
+    return Color(0xffff00ff);
+  }else {
+    //코드
+    return Color(0xffd6d6d6);
+  }
+}
