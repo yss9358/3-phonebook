@@ -105,7 +105,7 @@ class _MainListPageState extends State<_MainListPage> {
   //화면
   @override
   Widget build(BuildContext context) {
-    print(isFind);
+    // print(isFind);
     return FutureBuilder(
       future: getPersonVo, //Future<> 함수명, 으로 받은 데이타
       builder: (context, snapshot) {
@@ -119,6 +119,9 @@ class _MainListPageState extends State<_MainListPage> {
           //데이터가 있으면
           return Column(
             children: [
+              Container(
+                child: Text("저장된 연락처(${snapshot.data!.length})"),
+              ),
               Expanded(
                 child: Container(
                   height: 400,
