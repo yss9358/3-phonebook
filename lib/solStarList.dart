@@ -54,6 +54,9 @@ class _StarListPageState extends State<_StarListPage> {
           //데이터가 있으면
           return Column(
             children: [
+              Container(
+                child: Text("즐겨찾는 연락처(${snapshot.data!.length})"),
+              ),
               Expanded(
                 child: Container(
                   height: 400,
@@ -131,8 +134,6 @@ Future<List<PersonVo>> getStarList() async {
       'http://localhost:9000/phone3/list/star'
     );
     if (response.statusCode == 200) {
-      print(response.data);
-
       //리스트생성
       List<PersonVo> personList = [];
       for (int i = 0; i < response.data["apiData"].length; i++) {
@@ -157,8 +158,6 @@ void starClick(int no) async{
         'http://localhost:9000/phone3/list/star/${no}'
     );
     if (response.statusCode == 200) {
-      print(response.data);
-
     } else {
       throw Exception('api 서버 문제');
     }
