@@ -24,9 +24,12 @@ class _Writeform extends StatefulWidget {
 
   @override
   State<_Writeform> createState() => _WriteformState();
+  bool isFavorite = false;
 }
 
 class _WriteformState extends State<_Writeform> {
+  final _groupList = ['즐겨찾기','가족','친구'];
+  var _selectedGroup = '';
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +60,12 @@ class _WriteformState extends State<_Writeform> {
                 ),
                 IconButton(
                     onPressed: (){
+                      setState(() {
+                        isFavorite = !isFavorite;
+                      });
                     },
-                    icon: Icon(Icons.favorite),
-                  color: Color(0xffff4040),
+                    icon: Icon(Icons.favorite, color: _favorite(isFavorite)
+                    ),
                 ),
               ],
             ),
@@ -159,5 +165,6 @@ class _WriteformState extends State<_Writeform> {
       ),
 
     );
+
   }
 }
