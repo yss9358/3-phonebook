@@ -36,6 +36,7 @@ class _GroupListPageState extends State<_GroupListPage> {
   final TextEditingController _groupNameController = TextEditingController();
 
   late Future<List<TeamVo>> list ;
+  late String message = '';
 
   @override
   void initState() {
@@ -49,7 +50,6 @@ class _GroupListPageState extends State<_GroupListPage> {
   Widget build(BuildContext context) {
 
     list = getList();
-
 
     return FutureBuilder(
         future: list,
@@ -67,6 +67,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                   child: Column(
                     children: [
                       Container(
+                        width: 50,
                         margin: EdgeInsets.fromLTRB(310, 0, 0, 0),
                         decoration: BoxDecoration(
                           // border: Border.all(width: 1)
@@ -74,28 +75,41 @@ class _GroupListPageState extends State<_GroupListPage> {
                         child: IconButton(
                           onPressed: (){
                             _groupNameController.text = '';
+                            message = '';
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context){
-                                  return Center(
+                                  return Container(
+
                                     child: AlertDialog(
                                       backgroundColor: Color(0xffffffff),
                                       title: Container(
                                           alignment: Alignment.center,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                            // border: Border.all(width: 1)
-                                          ),
-                                          child: Text('그룹 추가',style: TextStyle(fontSize: 23),)),
-                                      content: TextFormField(
-                                        style: TextStyle(fontSize: 23),
-                                        maxLength: 10,
-                                        controller: _groupNameController,
-                                        // textAlign: TextAlign.center,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          enabledBorder: OutlineInputBorder(),
-                                          hintText: '그룹명으로 입력.',
+
+                                          // width: 100,
+                                          // decoration: BoxDecoration(
+                                          //   // border: Border.all(width: 1)
+                                          // ),
+                                          child: Text('그룹 추가',style: TextStyle(fontSize: 20),)),
+                                      content: Container(
+                                        height: 130,
+                                        child: Column(
+                                          children: [
+                                            TextFormField(
+                                              style: TextStyle(fontSize: 23),
+                                              maxLength: 10,
+                                              controller: _groupNameController,
+                                              // textAlign: TextAlign.center,
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                enabledBorder: OutlineInputBorder(),
+                                                hintText: '그룹명 입력하기',
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Text('$message',style: TextStyle(fontSize: 23),)
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       actions: [
@@ -106,6 +120,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                             Container(
                                               width: 100,
                                               child: TextButton(onPressed: (){
+                                                insertTeam();
                                                 Navigator.pop(context);
                                               },
                                                   child: Text('추가')),
@@ -149,11 +164,9 @@ class _GroupListPageState extends State<_GroupListPage> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      width: 270,
+                                      width: 260,
                                       child: TextButton(
                                         onPressed: () {
-                                          print("그룹리스트");
-
                                           Navigator.pushNamed(
                                               context,
                                               '/groupin',
@@ -176,7 +189,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                     Container(
                                       margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                       child: Text(
-                                        "(0)",
+                                        "(${snapshot.data![index].count})",
                                         style: TextStyle(
                                             fontSize: 15,
                                             color: Color(0xffd6d6d6)
@@ -186,7 +199,6 @@ class _GroupListPageState extends State<_GroupListPage> {
                                     Container(
                                       child: TextButton(
                                         onPressed:(){
-                                          print(snapshot.data![index].teamNo);
                                           showDialog(
                                               context: context,
                                               builder: (BuildContext context){
@@ -221,6 +233,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                                           Container(
                                                             width: 100,
                                                             child: TextButton(onPressed: (){
+                                                              deleteTeam(snapshot.data![index].teamNo!);
                                                               Navigator.pop(context);
                                                             },
                                                                 child: Text('삭제')),
@@ -259,14 +272,73 @@ class _GroupListPageState extends State<_GroupListPage> {
     );
   }
 
+  // 삭제
+  Future<void> deleteTeam(int no) async{
+    try{
+      var dio = Dio();
+      dio.options.headers['Content-Type'] = 'application/json';
+      final response = await dio.delete(
+        // 'http://43.200.172.144:9000/phone3/teams',
+        'http://localhost:9000/phone3/teams/${no}',
+      );
+      if(response.statusCode == 200){
+        if(response.data['apiData'] == 1){
+          setState(() {
+            print('삭제성공');
+          });
+        } else {
+          throw Exception('api 서버 문제');
+        }
+      } else {
+        throw Exception('api 서버 문제');
+      }
+    }catch(e){
+      throw Exception('Failed to load person: $e');
+    }
+  }
 
+
+  // 추가
+  Future<void> insertTeam() async {
+    try {
+      var dio = Dio();
+      dio.options.headers['Content-Type'] = 'application/json';
+      final response = await dio.post (
+        // 'http://43.200.172.144:9000/phone3/teams',
+        'http://localhost:9000/phone3/teams',
+        data:{
+          'teamName' : _groupNameController.text
+        }
+      );
+
+      if(response.statusCode == 200){
+        // print(response.data['apiData']);
+        if(response.data['apiData'] == 1 && response.data['apiData'] != null){
+          setState(() {
+            print('추가성공');
+          });
+        } else {
+          message = response.data['message'];
+        }
+      } else {
+        throw Exception('api 서버 문제');
+      }
+    } catch(e){
+      throw Exception('Failed to load person: $e');
+    }
+  }
+
+
+
+
+  // 전체 리스트 불러오기
   Future<List<TeamVo>> getList() async{
     try {
       var dio = Dio();
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.get(
-        // 'http://43.200.172.144:9000/phone3/team',
-        'http://localhost:9000/phone3/team'
+        // 'http://43.200.172.144:9000/phone3/teams',
+        'http://localhost:9000/phone3/teams'
       );
 
       if (response.statusCode == 200) {
@@ -276,7 +348,7 @@ class _GroupListPageState extends State<_GroupListPage> {
           TeamVo vo = TeamVo.fromJson(response.data['apiData'][i]);
           list.add(vo);
         }
-        print(list);
+        // print(list);
         return list;
       } else {
         throw Exception('api 서버 문제');
@@ -284,6 +356,5 @@ class _GroupListPageState extends State<_GroupListPage> {
     } catch (e) {
       throw Exception('Failed to load person: $e');
     }
-
   }
 }
