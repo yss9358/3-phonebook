@@ -133,7 +133,12 @@ class _ReadPageState extends State<_ReadPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/call",
+                          arguments: {
+                            "hp": "${snapshot.data!.hp}"
+                          });
+                    },
                     icon: Icon(
                       Icons.phone,
                       color: Color(0xff737373), // 아이콘 색상
@@ -173,7 +178,9 @@ class _ReadPageState extends State<_ReadPage> {
                   ),
                   SizedBox(width: 10),
                   ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      star(int.parse(personNo));
+                    },
                     icon: Icon(
                       Icons.favorite,
                       color: Color(0xff737373), // 아이콘 색상
@@ -346,4 +353,22 @@ Future<PersonVo> getPersonByNo(String personNo) async {
     //예외 발생
     throw Exception('Failed to load person: $e');
   }
+
 } //getPersonByNo
+Future<void> star(int personNo) async {
+  try {
+    var dio = Dio(); //new생략
+    dio.options.headers['Content-Type'] = 'application/json';
+    final response = await dio.put(
+      'http://localhost:9000/phone3/star',
+      data: {
+        'personNo': personNo
+      },
+    );
+    if (response.statusCode == 200) {} else {
+      throw Exception('api 서버 문제');
+    }
+  } catch (e) {
+    throw Exception('Failed to load person: $e');
+  }
+}
