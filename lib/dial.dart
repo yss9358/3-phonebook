@@ -4,7 +4,7 @@ import 'PersonVo.dart';
 import 'package:dio/dio.dart';
 
 class DialPage extends StatefulWidget {
-  const DialPage({super.key});
+  const DialPage({Key? key});
 
   @override
   _DialPageState createState() => _DialPageState();
@@ -14,7 +14,6 @@ class _DialPageState extends State<DialPage> {
   String phoneNumber = '';
   late Future<List<PersonVo>> personVoFuture;
 
-  //초기화함수 (1번만 실행됨)
   @override
   void initState() {
     super.initState();
@@ -42,7 +41,6 @@ class _DialPageState extends State<DialPage> {
       if (phoneNumber.isNotEmpty) {
         phoneNumber = phoneNumber.substring(0, phoneNumber.length - 1);
         if (phoneNumber.isNotEmpty) {
-          // 번호가 비어있지 않은 경우에만 데이터 가져오기
           personVoFuture = getPersonInfo(phoneNumber);
         } else {
           personVoFuture = Future.value([]);
@@ -66,7 +64,7 @@ class _DialPageState extends State<DialPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              flex: 2, // phoneNumber 입력 창 아래
+              flex: 2,
               child: Column(
                 children: [
                   Container(
@@ -81,31 +79,43 @@ class _DialPageState extends State<DialPage> {
                         hintText: phoneNumber,
                       ),
                     ),
-                  ), // 간격 추가
+                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: FutureBuilder<List<PersonVo>>(
                         future: personVoFuture,
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState
-                              .waiting) {
-                            return Center(child: CircularProgressIndicator());
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
                           } else if (snapshot.hasError) {
                             return Center(
-                                child: Text('Error: ${snapshot.error}'));
+                              child: Text('Error: ${snapshot.error}'),
+                            );
                           } else if (snapshot.hasData) {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 for (var person in snapshot.data!)
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: [
-                                      Text("${person.name}  ${person.hp}",
-                                        style: TextStyle(fontSize: 16),),
-                                      SizedBox(height: 8), // 각 항목 사이에 간격 추가
-                                    ],
+                                  GestureDetector(
+                                    onTap: () {
+                                      _updatePhoneNumber(person.hp!);
+                                      personVoFuture =
+                                          getPersonInfo(person.hp!);
+                                    },
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${person.name}  ${person.hp}",
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                        SizedBox(height: 8),
+                                      ],
+                                    ),
                                   ),
                               ],
                             );
@@ -116,12 +126,11 @@ class _DialPageState extends State<DialPage> {
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
             Expanded(
-              flex: 5, // 다이얼 위
+              flex: 5,
               child: Container(
                 padding: const EdgeInsets.fromLTRB(4, 0, 6, 2),
                 child: Column(
@@ -161,7 +170,7 @@ class _DialPageState extends State<DialPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _buildDialButton('*'),
-                          _buildDialButton('0'),
+                          _buildDialButton(0),
                           _buildDialButton('#'),
                         ],
                       ),
@@ -174,9 +183,8 @@ class _DialPageState extends State<DialPage> {
                           InkWell(
                             onTap: () {
                               print("전화 걸기");
-                              Navigator.pushNamed(context, '/call', arguments: {
-                                "phoneNumber": this.phoneNumber
-                              });
+                              Navigator.pushNamed(context, '/call',
+                                  arguments: {"phoneNumber": this.phoneNumber});
                             },
                             child: Container(
                               width: 70,
@@ -218,7 +226,6 @@ class _DialPageState extends State<DialPage> {
     return InkWell(
       onTap: () {
         if (number == -1) {
-          // Clear Button
           _clearPhoneNumber();
         } else {
           _addToPhoneNumber(number.toString());
@@ -233,44 +240,32 @@ class _DialPageState extends State<DialPage> {
           color: number == -1 ? Colors.red : Color(0xffd6d6d6),
           shape: BoxShape.circle,
         ),
-        child: number == -1 ? Icon(Icons.backspace) : Text(
-            '$number', style: TextStyle(fontSize: 24)), // Increased font size
+        child: number == -1
+            ? Icon(Icons.backspace)
+            : Text('$number', style: TextStyle(fontSize: 24)),
       ),
     );
   }
 
   Future<List<PersonVo>> getPersonInfo(String phoneNumber) async {
-    //print("getPersonInfo(): 데이터 가져오는 중");
     try {
-      /*----요청처리-------------------*/
-      //Dio 객체 생성 및 설정
       var dio = Dio();
-
-      // 헤더설정:json으로 전송
       dio.options.headers['Content-Type'] = 'application/json';
-
-      // 서버 요청
       final response = await dio.get(
-        'http://localhost:9000/phone3/search/${phoneNumber}',
+        'http://localhost:9000/phone3/search/$phoneNumber',
       );
 
-      /*----응답처리-------------------*/
       if (response.statusCode == 200) {
-        //접속성공 200 이면
-        //print(response.data); // json->map 자동변경
-        //print(response.data["result"]);
-
         if (response.data["apiData"] != null &&
             response.data["apiData"].isNotEmpty) {
           List<PersonVo> personList = [];
           for (int i = 0; i < response.data["apiData"].length; i++) {
-            PersonVo personVo = PersonVo.fromJson(response.data["apiData"][i]);
+            PersonVo personVo =
+            PersonVo.fromJson(response.data["apiData"][i]);
             personList.add(personVo);
           }
-          //print(personList);
           return personList;
         } else {
-          // Handle case when apiData is null or empty
           return [];
         }
       } else {
@@ -281,6 +276,7 @@ class _DialPageState extends State<DialPage> {
     }
   }
 }
+
 void main() {
   runApp(MaterialApp(
     home: DialPage(),
