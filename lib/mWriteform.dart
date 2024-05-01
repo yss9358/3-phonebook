@@ -268,7 +268,7 @@ class _WriteformState extends State<_Writeform> {
       /*----응답처리-------------------*/
       if (response.statusCode == 200) {
         // 접속 성공 200 이면
-        print(response.data); // json->map 자동 변환
+        //print(response.data); // json->map 자동 변환
         // return PersonVo.fromJson(response.data["apiData"]);
       } else {
         // 접속 실패 404, 502 등등 api 서버 문제
