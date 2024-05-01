@@ -150,8 +150,8 @@ Future<List<PersonVo>> getMainList() async {
     var dio = Dio(); //new생략
     dio.options.headers['Content-Type'] = 'application/json';
     final response = await dio.get(
-      'http://43.200.172.144:9000/phone3/list/main',
-      // 'http://localhost:9000/phone3/list/main'
+      // 'http://43.200.172.144:9000/phone3/list/main',
+      'http://localhost:9000/phone3/list/main'
     );
     if (response.statusCode == 200) {
       print(response.data);

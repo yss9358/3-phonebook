@@ -73,6 +73,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                         ),
                         child: IconButton(
                           onPressed: (){
+                            _groupNameController.text = '';
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context){
@@ -87,7 +88,6 @@ class _GroupListPageState extends State<_GroupListPage> {
                                           ),
                                           child: Text('그룹 추가',style: TextStyle(fontSize: 23),)),
                                       content: TextFormField(
-
                                         style: TextStyle(fontSize: 23),
                                         maxLength: 10,
                                         controller: _groupNameController,
@@ -96,7 +96,6 @@ class _GroupListPageState extends State<_GroupListPage> {
                                           border: OutlineInputBorder(),
                                           enabledBorder: OutlineInputBorder(),
                                           hintText: '그룹명으로 입력.',
-
                                         ),
                                       ),
                                       actions: [
@@ -187,6 +186,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                     Container(
                                       child: TextButton(
                                         onPressed:(){
+                                          print(snapshot.data![index].teamNo);
                                           showDialog(
                                               context: context,
                                               builder: (BuildContext context){
@@ -265,8 +265,8 @@ class _GroupListPageState extends State<_GroupListPage> {
       var dio = Dio();
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.get(
-        'http://43.200.172.144:9000/phone3/team',
-        // 'http://localhost:9000/phone3/team'
+        // 'http://43.200.172.144:9000/phone3/team',
+        'http://localhost:9000/phone3/team'
       );
 
       if (response.statusCode == 200) {
