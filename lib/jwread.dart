@@ -64,12 +64,16 @@ class _ReadPage extends StatefulWidget {
 //할일 정의 클래스(통신, 데이터적용)
 class _ReadPageState extends State<_ReadPage> {
   //미래의 정우성 데이터가 담길거야
-  late Future<PersonVo> personVoFuture; // personVoFuture의 Future 타입 지정
+  late Future<PersonVo> personVoFuture;
+
+  bool isFavorite = false;
 
   //초기화함수 (1번만 실행됨)
   @override
   void initState() {
     super.initState();
+
+    bool isFavorite = false;
   }
 
 //화면그리기
@@ -180,10 +184,11 @@ class _ReadPageState extends State<_ReadPage> {
                   ElevatedButton.icon(
                     onPressed: () {
                       star(int.parse(personNo));
+                      isFavorite = !isFavorite;
                     },
                     icon: Icon(
                       Icons.favorite,
-                      color: Color(0xff737373), // 아이콘 색상
+                      color: _favorite(isFavorite), // 아이콘 색상
                     ),
                     label: Text(
                       "즐겨찾기",
@@ -251,6 +256,7 @@ class _ReadPageState extends State<_ReadPage> {
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
+                                  print("11111111");
                                 },
                                 child: Text(
                                   "취소",
@@ -262,6 +268,14 @@ class _ReadPageState extends State<_ReadPage> {
                                 onPressed: () {
                                   // 삭제 동작 추가
                                   Navigator.pop(context);
+
+                                  //삭제 api 호출
+
+                                  //화면 뒤로가기
+                                  deleteItem(personNo);
+                                  Navigator.pushNamed(context, "/");
+
+                                  print("22222222222");
                                 },
                                 child: Text(
                                   "삭제",
@@ -358,7 +372,9 @@ Future<PersonVo> getPersonByNo(String personNo) async {
 Future<void> star(int personNo) async {
   try {
     var dio = Dio(); //new생략
+
     dio.options.headers['Content-Type'] = 'application/json';
+
     final response = await dio.put(
       'http://localhost:9000/phone3/star',
       data: {
@@ -370,5 +386,44 @@ Future<void> star(int personNo) async {
     }
   } catch (e) {
     throw Exception('Failed to load person: $e');
+  }
+}
+
+Future<PersonVo> deleteItem(String personNo) async {
+  print(personNo);
+  print("삭제API 실행 ");
+
+  try {
+    /*----요청처리-------------------*/
+    // Dio 객체 생성
+    var dio = Dio();
+
+    // 헤더 설정: JSON으로 데이터 전송
+    dio.options.headers['Content-Type'] = 'application/json';
+
+    // 서버 요청
+    final response = await dio.get(
+      'http://localhost:9000/phone3/delete/${personNo}',
+    );
+
+    /*----응답처리-------------------*/
+    if (response.statusCode == 200) {
+      print(response.data); // json->map 자동변경
+      return PersonVo.fromJson(response.data["apiData"]);
+    } else {
+      //접속실패 404, 502등등 api서버 문제
+      throw Exception('api 서버 문제');
+    }
+  } catch (e) {
+    //예외 발생
+    throw Exception('Failed to load person: $e');
+  }
+
+}
+Color _favorite(bool isFavorite) {
+  if (isFavorite == true) {
+    return Color(0xffff4040);
+  } else {
+    return Color(0xff969696);
   }
 }
