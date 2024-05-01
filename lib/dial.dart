@@ -182,7 +182,7 @@ class _DialPageState extends State<DialPage> {
                           SizedBox(width: 80),
                           InkWell(
                             onTap: () {
-                              print("전화 걸기");
+                              // print("전화 걸기");
                               Navigator.pushNamed(context, '/call',
                                   arguments: {"phoneNumber": this.phoneNumber});
                             },

@@ -96,7 +96,7 @@ class _MainListPageState extends State<_MainListPage> {
   void initState() {
     super.initState();
     if(!isFind){
-      print("isNotFind");
+      // print("isNotFind");
       getPersonVo = getMainList();
     }
   } //initState
@@ -145,7 +145,7 @@ class _MainListPageState extends State<_MainListPage> {
                                 width: 310,
                                 child: TextButton(
                                   onPressed: () {
-                                    print("${snapshot.data![index].name}");
+                                    // print("${snapshot.data![index].name}");
                                     Navigator.pushNamed(context, "/read",
                                         arguments: {
                                           "personNo":
@@ -167,7 +167,7 @@ class _MainListPageState extends State<_MainListPage> {
                               Container(
                                 child: IconButton(
                                   onPressed: () {
-                                    print("${snapshot.data![index].hp}전화걸기");
+                                    // print("${snapshot.data![index].hp}전화걸기");
                                     Navigator.pushNamed(context, "/call",
                                         arguments: {
                                           "hp": "${snapshot.data![index].hp}"
@@ -228,7 +228,7 @@ Future<List<PersonVo>> getfindList(String keyword) async {
       data: keyword,
     );
     if (response.statusCode == 200) {
-      print(response.data);
+      // print(response.data);
       //리스트생성
       List<PersonVo> personList = [];
       for (int i = 0; i < response.data["apiData"].length; i++) {

@@ -22,7 +22,7 @@ class _CallPageState extends State<CallPage> {
 
     // 'phoneNumber' 키를 사용하여 값을 추출합니다.
     final String phoneNumber = args['phoneNumber']!;
-    print(phoneNumber);
+    // print(phoneNumber);
 
     // 전화 걸기 기능을 호출합니다.
     _makePhoneCall(phoneNumber);
