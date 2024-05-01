@@ -61,9 +61,7 @@ class _GroupInPageState extends State<_GroupInPage> {
             return Column(
               children: [
                 Container(
-                  child: Text(
-                    "${snapshot.data![0].teamName}(${snapshot.data!.length})",
-                    style: TextStyle(fontSize: 18),),
+                  child: Text("${snapshot.data![0].teamName}(${snapshot.data!.length})"),
                 ),
                 Expanded(
                   child: Container(

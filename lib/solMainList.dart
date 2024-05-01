@@ -119,6 +119,9 @@ class _MainListPageState extends State<_MainListPage> {
           //데이터가 있으면
           return Column(
             children: [
+              Container(
+                child: Text("저장된 연락처(${snapshot.data!.length})"),
+              ),
               Expanded(
                 child: Container(
                   height: 400,
