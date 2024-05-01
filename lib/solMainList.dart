@@ -3,9 +3,23 @@ import 'package:dio/dio.dart';
 import 'footer.dart';
 import 'PersonVo.dart';
 
-class MainList extends StatelessWidget {
-  const MainList({super.key});
+late Future<List<PersonVo>> getPersonVo;
+bool isFind = false;
+TextEditingController _fineController = TextEditingController();
 
+
+class MainList extends StatefulWidget {
+  const MainList({Key? key}) : super(key: key);
+
+  @override
+  State<MainList> createState() => _MainListState();
+}
+class _MainListState extends State<MainList> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +31,51 @@ class MainList extends StatelessWidget {
         width: 414,
         height: 680,
         color: Color(0xffffffff),
-        child: _MainListPage(),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center, //세로정렬
+              children: [
+                Container(
+                  margin: EdgeInsets.all(10),
+                  width: 340,
+                  height: 50,
+                  child: TextFormField(
+                    controller: _fineController,
+                    onChanged: (text) {
+                      setState(() {
+                        isFind = true;
+                        if (text.isNotEmpty) {
+                          getPersonVo = getfindList(text);
+                        } else {
+                          getPersonVo = getMainList();
+                        }
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: '검색',
+                      label: Icon(Icons.search),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/write");
+                    },
+                    icon: Icon(Icons.add),
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Container(
+                child: _MainListPage(),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -31,24 +89,23 @@ class _MainListPage extends StatefulWidget {
 }
 
 class _MainListPageState extends State<_MainListPage> {
-  late Future<List<PersonVo>> getPersonVo;
-  late TextEditingController _fineController;
+
 
   //초기화
   @override
   void initState() {
     super.initState();
-    _fineController = TextEditingController();
+    if(!isFind){
+      print("isNotFind");
+      getPersonVo = getMainList();
+    }
   } //initState
+
 
   //화면
   @override
   Widget build(BuildContext context) {
-    bool isFind = false;
-
-    if (!isFind) {
-      getPersonVo = getMainList();
-    }
+    print(isFind);
     return FutureBuilder(
       future: getPersonVo, //Future<> 함수명, 으로 받은 데이타
       builder: (context, snapshot) {
@@ -62,36 +119,6 @@ class _MainListPageState extends State<_MainListPage> {
           //데이터가 있으면
           return Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center, //세로정렬
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    width: 340,
-                    height: 50,
-                    child: TextFormField(
-                      controller: _fineController,
-                      onChanged: (text) {
-                        getfindList(text);
-                      },
-                      decoration: InputDecoration(
-                        hintText: '검색',
-                        label: Icon(Icons.search),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    // margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, "/write");
-                      },
-                      icon: Icon(Icons.add),
-                    ),
-                  ),
-                ],
-              ),
               Expanded(
                 child: Container(
                   height: 400,
@@ -160,6 +187,7 @@ class _MainListPageState extends State<_MainListPage> {
     );
   }
 
+}
   Future<List<PersonVo>> getMainList() async {
     try {
       var dio = Dio(); //new생략
@@ -168,7 +196,6 @@ class _MainListPageState extends State<_MainListPage> {
           // 'http://43.200.172.144:9000/phone3/list/main',
           'http://localhost:9000/phone3/list/main');
       if (response.statusCode == 200) {
-        // print(response.data);
 
         //리스트생성
         List<PersonVo> personList = [];
@@ -187,32 +214,32 @@ class _MainListPageState extends State<_MainListPage> {
 
 //검색
 Future<List<PersonVo>> getfindList(String keyword) async {
-//   Future<List<PersonVo>> getfindList() async {
-    // print(keyword);
-    try {
-      var dio = Dio(); //new생략
-      dio.options.headers['Content-Type'] = 'application/json';
-      final response = await dio.post(
-        // 'http://43.200.172.144:9000/phone3/list/main',
-        'http://localhost:9000/phone3/list/find',
-        // data: _fineController.text,
-        data: keyword,
-      );
-      if (response.statusCode == 200) {
-        print(response.data);
-
-        //리스트생성
-        List<PersonVo> personList = [];
-        for (int i = 0; i < response.data["apiData"].length; i++) {
-          //api데이터 저장하기
-          personList.add(PersonVo.fromJson(response.data["apiData"][i]));
-        }
-        return personList;
-      } else {
-        throw Exception('api 서버 문제');
+  // print(keyword);
+  try {
+    var dio = Dio(); //new생략
+    dio.options.headers['Content-Type'] = 'application/json';
+    final response = await dio.post(
+      // 'http://43.200.172.144:9000/phone3/list/main',
+      'http://localhost:9000/phone3/list/find',
+      // data: _fineController.text,
+      data: keyword,
+    );
+    if (response.statusCode == 200) {
+      print(response.data);
+      //리스트생성
+      List<PersonVo> personList = [];
+      for (int i = 0; i < response.data["apiData"].length; i++) {
+        //api데이터 저장하기
+        personList.add(PersonVo.fromJson(response.data["apiData"][i]));
       }
-    } catch (e) {
-      throw Exception('Failed to load person: $e');
+
+
+
+      return personList;
+    } else {
+      throw Exception('api 서버 문제');
     }
+  } catch (e) {
+    throw Exception('Failed to load person: $e');
   }
 }
