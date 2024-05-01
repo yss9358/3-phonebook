@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'footer.dart';
 import 'package:dio/dio.dart';
@@ -36,8 +37,7 @@ class _GroupListPageState extends State<_GroupListPage> {
   final TextEditingController _groupNameController = TextEditingController();
 
   late Future<List<TeamVo>> list ;
-  late String message = '';
-
+  bool isTrue = false;
   @override
   void initState() {
     super.initState();
@@ -75,7 +75,6 @@ class _GroupListPageState extends State<_GroupListPage> {
                         child: IconButton(
                           onPressed: (){
                             _groupNameController.text = '';
-                            message = '';
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context){
@@ -99,17 +98,19 @@ class _GroupListPageState extends State<_GroupListPage> {
                                               style: TextStyle(fontSize: 23),
                                               maxLength: 10,
                                               controller: _groupNameController,
-                                              // textAlign: TextAlign.center,
+                                              textAlign: TextAlign.center,
                                               decoration: InputDecoration(
                                                 border: OutlineInputBorder(),
-                                                enabledBorder: OutlineInputBorder(),
+                                                // enabledBorder: OutlineInputBorder(),
                                                 hintText: '그룹명 입력하기',
                                               ),
                                             ),
                                             Container(
-                                              child: Text('$message',style: TextStyle(fontSize: 23),)
+                                              height: 20,
+                                              child: Text('중복입니다',style: TextStyle(fontSize: 15, color: Colors.red),)
                                             ),
                                           ],
+
                                         ),
                                       ),
                                       actions: [
@@ -122,6 +123,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                               child: TextButton(onPressed: (){
                                                 insertTeam();
                                                 Navigator.pop(context);
+
                                               },
                                                   child: Text('추가')),
                                             ),
@@ -134,7 +136,6 @@ class _GroupListPageState extends State<_GroupListPage> {
                                             ),
                                           ],
                                         ),
-
                                       ],
                                     ),
                                   );
@@ -146,7 +147,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                       ),
 
                       Container(
-                        height: 400,
+                        height: 570,
                         child: ListView.builder(
                             physics: AlwaysScrollableScrollPhysics(),
                             itemCount: snapshot.data!.length,
@@ -164,7 +165,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      width: 260,
+                                      width: 215,
                                       child: TextButton(
                                         onPressed: () {
                                           Navigator.pushNamed(
@@ -194,6 +195,73 @@ class _GroupListPageState extends State<_GroupListPage> {
                                             fontSize: 15,
                                             color: Color(0xffd6d6d6)
                                         ),
+                                      ),
+                                    ),
+                                    Container(
+                                      child: TextButton(
+                                        onPressed: (){
+                                          print('수정하기');
+                                          _groupNameController.text = '${snapshot.data![index].teamName}';
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Center(
+                                                  child: AlertDialog(
+                                                    backgroundColor: Color(0xffffffff),
+                                                    title: Container(
+                                                      alignment: Alignment.center,
+                                                      height: 40,
+                                                      child: Text('그룹 수정',style: TextStyle(fontSize: 23),),
+                                                    ),
+                                                    content: Container(
+                                                      height: 130,
+                                                      alignment: Alignment.center,
+                                                      child: Column(
+                                                        children: [
+                                                          TextFormField(
+                                                            style: TextStyle(fontSize: 23),
+                                                            maxLength: 10,
+                                                            controller: _groupNameController,
+                                                            textAlign: TextAlign.center,
+                                                            decoration: InputDecoration(
+                                                              border: OutlineInputBorder(),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            child: Text('aa',style: TextStyle(fontSize: 23),),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: 100,
+                                                            child: TextButton(onPressed: (){
+                                                              print('수정');
+                                                              // Navigator.pop(context);
+                                                            },
+                                                                child: Text('수정')),
+                                                          ),
+                                                          Container(
+                                                            width: 100,
+                                                            child: TextButton(onPressed: (){
+                                                              Navigator.pop(context);
+                                                            },
+                                                                child: Text('뒤로가기')),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                );
+                                              }
+                                          );
+                                        },
+                                        child: Text('[수정]')
                                       ),
                                     ),
                                     Container(
@@ -247,7 +315,6 @@ class _GroupListPageState extends State<_GroupListPage> {
                                                           ),
                                                         ],
                                                       ),
-
                                                     ],
                                                   ),
                                                 );
@@ -255,7 +322,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                           );
                                         },
                                         child: Text('[삭제]',style: TextStyle(fontSize: 15,color: Color(0xff000000)),),),
-                                    )
+                                    ),
                                   ],
                                 ),
                               );
@@ -270,6 +337,23 @@ class _GroupListPageState extends State<_GroupListPage> {
           }
         }
     );
+  }
+
+  // 수정
+  Future<void> updateTeam(int no) async {
+    print('수정하기');
+    try{
+      var dio = Dio();
+      dio.options.headers['Content-Type'] = 'application/json';
+      final response = await dio.put(
+        // 'http://43.200.172.144:9000/phone3/teams',
+        'http://localhost:9000/phone3/teams/${no}'
+      );
+
+
+    } catch(e){
+      throw Exception('Failed to load person: $e');
+    }
   }
 
   // 삭제
@@ -317,8 +401,6 @@ class _GroupListPageState extends State<_GroupListPage> {
           setState(() {
             print('추가성공');
           });
-        } else {
-          message = response.data['message'];
         }
       } else {
         throw Exception('api 서버 문제');
@@ -327,9 +409,6 @@ class _GroupListPageState extends State<_GroupListPage> {
       throw Exception('Failed to load person: $e');
     }
   }
-
-
-
 
   // 전체 리스트 불러오기
   Future<List<TeamVo>> getList() async{
@@ -358,3 +437,4 @@ class _GroupListPageState extends State<_GroupListPage> {
     }
   }
 }
+
