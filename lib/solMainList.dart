@@ -32,18 +32,21 @@ class _MainListPage extends StatefulWidget {
 
 class _MainListPageState extends State<_MainListPage> {
   late Future<List<PersonVo>> getPersonVo;
-
+  bool find = false;
   //초기화
   @override
   void initState() {
     super.initState();
-    getPersonVo = getMainList();
+    if(!find){
+      getPersonVo = getMainList();
+    }
   } //initState
 
   //화면
   @override
   Widget build(BuildContext context) {
-    TextEditingController _fineController = TextEditingController();
+    final TextEditingController _fineController = TextEditingController();
+
     return FutureBuilder(
       future: getPersonVo, //Future<> 함수명, 으로 받은 데이타
       builder: (context, snapshot) {
@@ -53,8 +56,7 @@ class _MainListPageState extends State<_MainListPage> {
           return Center(child: Text('데이터를 불러오는 데 실패했습니다.'));
         } else if (!snapshot.hasData) {
           return Center(child: Text('데이터가 없습니다.'));
-        } else {
-          //데이터가 있으면
+        } else { //데이터가 있으면
           return Column(
             children: [
               Row(
@@ -67,7 +69,9 @@ class _MainListPageState extends State<_MainListPage> {
                     child: TextFormField(
                       controller: _fineController,
                       onChanged: (text) {
-                        getfindList(text);
+                        find = true;
+                        print(text);
+                          getPersonVo = getfindList(text); // 변경된 검색어를 전달
                       },
                       decoration: InputDecoration(
                         hintText: '검색',
@@ -165,7 +169,7 @@ Future<List<PersonVo>> getMainList() async {
         // 'http://43.200.172.144:9000/phone3/list/main',
         'http://localhost:9000/phone3/list/main');
     if (response.statusCode == 200) {
-      print(response.data);
+      // print(response.data);
 
       //리스트생성
       List<PersonVo> personList = [];
