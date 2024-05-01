@@ -59,6 +59,7 @@ class _WriteformState extends State<_Writeform> {
                     onPressed: (){
                     },
                     icon: Icon(Icons.favorite),
+                  color: Color(0xffff4040),
                 ),
               ],
             ),
