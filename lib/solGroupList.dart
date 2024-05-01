@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'footer.dart';
 import 'package:dio/dio.dart';
 import 'teamVo.dart';
@@ -38,6 +39,7 @@ class _GroupListPageState extends State<_GroupListPage> {
 
   late Future<List<TeamVo>> list ;
   bool isTrue = false;
+
   @override
   void initState() {
     super.initState();
@@ -50,7 +52,6 @@ class _GroupListPageState extends State<_GroupListPage> {
   Widget build(BuildContext context) {
 
     list = getList();
-
     return FutureBuilder(
         future: list,
         builder: (context, snapshot) {
@@ -78,24 +79,21 @@ class _GroupListPageState extends State<_GroupListPage> {
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context){
-                                  return Container(
-
-                                    child: AlertDialog(
-                                      backgroundColor: Color(0xffffffff),
-                                      title: Container(
-                                          alignment: Alignment.center,
-
-                                          // width: 100,
-                                          // decoration: BoxDecoration(
-                                          //   // border: Border.all(width: 1)
-                                          // ),
-                                          child: Text('그룹 추가',style: TextStyle(fontSize: 20),)),
-                                      content: Container(
-                                        height: 130,
-                                        child: Column(
-                                          children: [
-                                            TextFormField(
-                                              style: TextStyle(fontSize: 23),
+                                  return AlertDialog(
+                                    backgroundColor: Color(0xffffffff),
+                                    title: Container(
+                                        alignment: Alignment.center,
+                                        child: Text('그룹 추가',
+                                          style: TextStyle(fontSize: 20),)
+                                    ),
+                                    content: Container(
+                                      height: 100,
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: 80,
+                                            child: TextFormField(
+                                              style: TextStyle(fontSize: 20),
                                               maxLength: 10,
                                               controller: _groupNameController,
                                               textAlign: TextAlign.center,
@@ -105,41 +103,45 @@ class _GroupListPageState extends State<_GroupListPage> {
                                                 hintText: '그룹명 입력하기',
                                               ),
                                             ),
-                                            Container(
-                                              height: 20,
-                                              child: Text('중복입니다',style: TextStyle(fontSize: 15, color: Colors.red),)
-                                            ),
-                                          ],
-
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      actions: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              width: 100,
-                                              child: TextButton(onPressed: (){
-                                                insertTeam();
-                                                Navigator.pop(context);
-                                              },
-                                                  child: Text('추가')),
-                                            ),
-                                            Container(
-                                              width: 100,
-                                              child: TextButton(onPressed: (){
-                                                Navigator.pop(context);
-                                              },
-                                                  child: Text('뒤로가기')),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
                                     ),
+                                    actions: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .center,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .center,
+                                        children: [
+                                          Container(
+                                            width: 100,
+                                            height: 20,
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  insertTeam();
+                                                  setState(() {
+
+                                                  });
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('추가')),
+                                          ),
+                                          Container(
+                                            width: 100,
+                                            height: 30,
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('뒤로가기')),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   );
-                                }
-                            );
+                                },
+                             );
                           },
                           icon: Icon(Icons.add),
                         ),
@@ -212,7 +214,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                                       child: Text('그룹 수정',style: TextStyle(fontSize: 23),),
                                                     ),
                                                     content: Container(
-                                                      height: 130,
+                                                      height: 100,
                                                       alignment: Alignment.center,
                                                       child: Column(
                                                         children: [
@@ -225,33 +227,38 @@ class _GroupListPageState extends State<_GroupListPage> {
                                                               border: OutlineInputBorder(),
                                                             ),
                                                           ),
-                                                          Container(
-                                                            child: Text('aa',style: TextStyle(fontSize: 23),),
-                                                          )
                                                         ],
                                                       ),
                                                     ),
                                                     actions: [
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: [
-                                                          Container(
-                                                            width: 100,
-                                                            child: TextButton(onPressed: (){
-                                                              updateTeam(snapshot.data![index].teamNo!);
-                                                              Navigator.pop(context);
-                                                            },
-                                                                child: Text('수정')),
-                                                          ),
-                                                          Container(
-                                                            width: 100,
-                                                            child: TextButton(onPressed: (){
-                                                              Navigator.pop(context);
-                                                            },
-                                                                child: Text('뒤로가기')),
-                                                          ),
-                                                        ],
+                                                      Container(
+                                                        height: 20,
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            Container(
+                                                              width: 100,
+                                                              height: 30,
+                                                              child: TextButton(onPressed: (){
+                                                                updateTeam(snapshot.data![index].teamNo!);
+                                                                setState(() {
+                                                                  // print('수정 성공');
+                                                                });
+                                                                Navigator.pop(context);
+                                                              },
+                                                                  child: Text('수정')),
+                                                            ),
+                                                            Container(
+                                                              width: 100,
+                                                              height: 30,
+                                                              child: TextButton(onPressed: (){
+                                                                Navigator.pop(context);
+                                                              },
+                                                                  child: Text('뒤로가기')),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       )
                                                     ],
                                                   ),
@@ -353,12 +360,11 @@ class _GroupListPageState extends State<_GroupListPage> {
 
       if(response.statusCode == 200){
         if(response.data.apiData == 1){
-          setState(() {
-            print('수정 성공');
-          });
+
         } else {
           throw Exception('api 서버 문제');
         }
+
       } else {
         throw Exception('api 서버 문제');
       }
@@ -379,8 +385,9 @@ class _GroupListPageState extends State<_GroupListPage> {
       if(response.statusCode == 200){
         if(response.data['apiData'] == 1){
           setState(() {
-            print('삭제성공');
+            // print('삭제성공');
           });
+
         } else {
           throw Exception('api 서버 문제');
         }
@@ -405,11 +412,8 @@ class _GroupListPageState extends State<_GroupListPage> {
           'teamName' : _groupNameController.text
         }
       );
-
       if(response.statusCode == 200){
-        if(response.data['apiData'] == 1 && response.data['apiData'] != null){
-          print('추가성공');
-        }
+
       } else {
         throw Exception('api 서버 문제');
       }

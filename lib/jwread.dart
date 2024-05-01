@@ -88,9 +88,9 @@ class _ReadPageState extends State<_ReadPage> {
     //personNo의 데이터를 서버로 부터 가져오기
     personVoFuture = getPersonByNo(personNo);
 
-    print("build(): 그리기 작업");
-    print(personNo);
-    print("데이터 가져오는 중");
+    // print("build(): 그리기 작업");
+    // print(personNo);
+    // print("데이터 가져오는 중");
     return FutureBuilder(
       future: personVoFuture,
       builder: (context, snapshot) {
@@ -325,8 +325,8 @@ class _ReadPageState extends State<_ReadPage> {
 
 //3번(정우성) 데이타 가져오기
 Future<PersonVo> getPersonByNo(String personNo) async {
-  print(personNo);
-  print("데이터 가져오는중 ");
+  // print(personNo);
+  // print("데이터 가져오는중 ");
 
   try {
     /*----요청처리-------------------*/
@@ -343,7 +343,7 @@ Future<PersonVo> getPersonByNo(String personNo) async {
 
     /*----응답처리-------------------*/
     if (response.statusCode == 200) {
-      print(response.data); // json->map 자동변경
+      // print(response.data); // json->map 자동변경
       return PersonVo.fromJson(response.data["apiData"]);
     } else {
       //접속실패 404, 502등등 api서버 문제

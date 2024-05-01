@@ -80,7 +80,7 @@ class _StarListPageState extends State<_StarListPage> {
                                 width: 310,
                                 child: TextButton(
                                   onPressed: (){
-                                    print("상세보기");
+                                    // print("상세보기");
                                     Navigator.pushNamed(
                                         context, "/read",
                                         arguments: {
@@ -100,7 +100,7 @@ class _StarListPageState extends State<_StarListPage> {
                               Container(
                                 child: IconButton(
                                   onPressed: () {
-                                    print("${index + 1}즐겨찾기 추가/삭제");
+                                    // print("${index + 1}즐겨찾기 추가/삭제");
                                     setState(() {
                                       snapshot.data![index].star = !snapshot.data![index].star!;
                                       starClick(snapshot.data![index].personNo!);

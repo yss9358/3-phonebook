@@ -19,7 +19,7 @@ class Footer extends StatelessWidget {
             width: 95,
             child: InkWell(
               onTap: () {
-                print("키패드");
+                // print("키패드");
                 Navigator.pushNamed(context, "/dial");
               },
               child: Column(
@@ -44,7 +44,7 @@ class Footer extends StatelessWidget {
             width: 95,
             child: InkWell(
               onTap: () {
-                print("연락처");
+                // print("연락처");
                 Navigator.pushNamed(context, "/");
               },
               child: Column(
@@ -69,7 +69,7 @@ class Footer extends StatelessWidget {
             width: 95,
             child: InkWell(
               onTap: () {
-                print("즐겨찾기");
+                // print("즐겨찾기");
                 Navigator.pushNamed(context, "/star");
               },
               child: Column(
@@ -94,7 +94,7 @@ class Footer extends StatelessWidget {
             width: 95,
             child: InkWell(
               onTap: () {
-                print("그룹");
+                // print("그룹");
                 Navigator.pushNamed(context, "/group");
               },
               child: Column(

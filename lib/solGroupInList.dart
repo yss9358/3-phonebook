@@ -43,7 +43,7 @@ class _GroupInPageState extends State<_GroupInPage> {
   Widget build(BuildContext context) {
     late final args = ModalRoute.of(context)!.settings.arguments as Map;
     late final no = args["teamNo"];
-    print("그룹별 리스트: ${no}");
+    // print("그룹별 리스트: ${no}");
     getPersonVo = getGroupList(no);
     return FutureBuilder(
       future: getPersonVo, //Future<> 함수명, 으로 받은 데이타
@@ -176,7 +176,7 @@ void starClick(int no) async{
       'http://localhost:9000/phone3/list/star/${no}'
     );
     if (response.statusCode == 200) {
-      print(response.data);
+      // print(response.data);
 
     } else {
       throw Exception('api 서버 문제');
