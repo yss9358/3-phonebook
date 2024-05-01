@@ -24,12 +24,12 @@ class _Writeform extends StatefulWidget {
 
   @override
   State<_Writeform> createState() => _WriteformState();
-  bool isFavorite = false;
 }
 
 class _WriteformState extends State<_Writeform> {
   final _groupList = ['즐겨찾기','가족','친구'];
   var _selectedGroup = '';
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
