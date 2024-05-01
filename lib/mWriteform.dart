@@ -28,7 +28,7 @@ class _Writeform extends StatefulWidget {
 
 class _WriteformState extends State<_Writeform> {
   final _groupList = ['즐겨찾기','가족','친구'];
-  var _selectedGroup = '';
+  var _selectedGroup = '즐겨찾기';
   bool isFavorite = false;
 
   @override
@@ -64,7 +64,8 @@ class _WriteformState extends State<_Writeform> {
                         isFavorite = !isFavorite;
                       });
                     },
-                    icon: Icon(Icons.favorite, color: _favorite(isFavorite)
+                    icon: Icon(Icons.favorite,
+                        color: _favorite(isFavorite),
                     ),
                 ),
               ],
@@ -98,13 +99,23 @@ class _WriteformState extends State<_Writeform> {
                 Container(
                   margin: EdgeInsets.fromLTRB(20, 0, 0, 10),
                   width: 290,
-                  child: TextFormField(
-                      decoration:InputDecoration(
-                              hintText: '전화번호를 입력해주세요',
-                              border: OutlineInputBorder()
-                          )
-                      ),
+                  child: DropdownButton(
+                    value:_selectedGroup,
+                    items: _groupList.map(
+                      (value) {
+                        return DropdownMenuItem(
+                            value:value,
+                            child: Text(value),
+                        );
+                      },
+                    ).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedGroup = value.toString();
+                      });
+                    },
                   ),
+                ),
                   ]
                 ),
             Container(
@@ -143,7 +154,7 @@ class _WriteformState extends State<_Writeform> {
                       Navigator.pop(context);
                     },
                     child: Text(
-                      "저장",
+                      "등록",
                       style: TextStyle(
                         color: Color(0xff737373),
                         fontSize: 20,
