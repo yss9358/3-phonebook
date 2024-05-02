@@ -15,6 +15,7 @@ class ReadPage extends StatelessWidget {
     late final args = ModalRoute.of(context)?.settings.arguments as Map?;
     late int personNo = args!['personNo'];
 
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xffffffff), // 앱 바 배경색
@@ -35,6 +36,7 @@ class ReadPage extends StatelessWidget {
                       '/editform',
                       arguments: {
                         'personNo':personNo,
+
                       }
                   );
 
