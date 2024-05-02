@@ -196,7 +196,8 @@ class _MainListPageState extends State<_MainListPage> {
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.get(
           // 'http://43.200.172.144:9000/phone3/list/main',
-          'http://localhost:9000/phone3/list/main');
+          'http://localhost:9000/phone3/list/main'
+      );
       if (response.statusCode == 200) {
 
         //리스트생성
@@ -221,7 +222,7 @@ Future<List<PersonVo>> getfindList(String keyword) async {
     var dio = Dio(); //new생략
     dio.options.headers['Content-Type'] = 'application/json';
     final response = await dio.post(
-      // 'http://43.200.172.144:9000/phone3/list/main',
+      // 'http://43.200.172.144:9000/phone3/list/find',
       'http://localhost:9000/phone3/list/find',
       // data: _fineController.text,
       data: keyword,

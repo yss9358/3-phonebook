@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'footer.dart';
 import 'package:dio/dio.dart';
 import 'teamVo.dart';
@@ -379,7 +377,7 @@ class _GroupListPageState extends State<_GroupListPage> {
       var dio = Dio();
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.delete(
-        // 'http://43.200.172.144:9000/phone3/teams',
+        // 'http://43.200.172.144:9000/phone3/teams/${no}',
         'http://localhost:9000/phone3/teams/${no}',
       );
       if(response.statusCode == 200){
