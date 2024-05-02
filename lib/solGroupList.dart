@@ -362,6 +362,7 @@ class _GroupListPageState extends State<_GroupListPage> {
       if(response.statusCode == 200){
         if(response.data.apiData == 1){
 
+
         } else {
           throw Exception('api 서버 문제');
         }
