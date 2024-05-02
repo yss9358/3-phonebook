@@ -77,14 +77,14 @@ class _StarListPageState extends State<_StarListPage> {
                           child: Row(
                             children: [
                               Container(
-                                width: 310,
+                                width: 303,
                                 child: TextButton(
                                   onPressed: (){
                                     // print("상세보기");
                                     Navigator.pushNamed(
                                         context, "/read",
                                         arguments: {
-                                          "personNo": "${snapshot.data![index].personNo}"
+                                          "personNo": snapshot.data![index].personNo
                                         });
                                   },
                                   child: Align(

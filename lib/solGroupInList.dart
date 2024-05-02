@@ -83,7 +83,7 @@ class _GroupInPageState extends State<_GroupInPage> {
                             child: Row(
                               children: [
                                 Container(
-                                  width: 310,
+                                  width: 303,
                                   child: TextButton(
                                     onPressed: () {
                                       print(
@@ -91,8 +91,8 @@ class _GroupInPageState extends State<_GroupInPage> {
                                       Navigator.pushNamed(
                                           context, "/read",
                                           arguments: {
-                                            "personNo": "${snapshot.data![index]
-                                                .personNo}"
+                                            "personNo": snapshot.data![index]
+                                                .personNo
                                           });
                                     },
                                     child: Align(

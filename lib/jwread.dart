@@ -138,7 +138,7 @@ class _ReadPageState extends State<_ReadPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 5),
               Center(
                 child: Text(
                   "${snapshot.data!.name}",
@@ -171,7 +171,7 @@ class _ReadPageState extends State<_ReadPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      minimumSize: Size(130, 50), // 버튼 최소 크기
+                      minimumSize: Size(100, 50), // 버튼 최소 크기
                     ),
                   ),
                   SizedBox(width: 10),
@@ -191,7 +191,7 @@ class _ReadPageState extends State<_ReadPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      minimumSize: Size(130, 50), // 버튼 최소 크기
+                      minimumSize: Size(100, 50), // 버튼 최소 크기
                     ),
                   ),
                   SizedBox(width: 10),
@@ -217,26 +217,26 @@ class _ReadPageState extends State<_ReadPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      minimumSize: Size(130, 50), // 버튼 최소 크기
+                      minimumSize: Size(100, 50), // 버튼 최소 크기
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 15),
               Container(
                 width: 414,
-                height: 100,
+                height: 90,
                 child:
                 _buildInfoBox("전화번호", "${snapshot.data!.hp}"), // 전화번호 정보 박스
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Container(
                 width: 414,
-                height: 100,
+                height: 90,
                 child:
                 _buildInfoBox("그룹", "${snapshot.data!.teamName}"), // 그룹 정보 박스
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 35),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -256,7 +256,7 @@ class _ReadPageState extends State<_ReadPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        minimumSize: Size(200, 60), // 버튼 최소 크기
+                        minimumSize: Size(180, 60), // 버튼 최소 크기
                       ),
                     ),
                   ),
@@ -315,7 +315,7 @@ class _ReadPageState extends State<_ReadPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        minimumSize: Size(200, 60), // 버튼 최소 크기
+                        minimumSize: Size(180, 60), // 버튼 최소 크기
                       ),
                     ),
                   ),

@@ -201,7 +201,7 @@ class _EditFormState extends State<_EditForm> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 150),
+                    SizedBox(height: 100),
                     Container(
                       padding: EdgeInsets.all(10),
                       child: Row(

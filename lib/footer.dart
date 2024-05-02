@@ -46,6 +46,8 @@ class Footer extends StatelessWidget {
               onTap: () {
                 // print("연락처");
                 Navigator.pushNamed(context, "/");
+                // Navigator.popUntil(context, (route) => route.isFirst);
+                // Navigator.popUntil(context, (route) => false);
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
