@@ -68,7 +68,7 @@ class _DialPageState extends State<DialPage> {
               child: Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 10),
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
                     child: TextField(
                       textAlign: TextAlign.center,
                       onChanged: _updatePhoneNumber,
@@ -132,12 +132,13 @@ class _DialPageState extends State<DialPage> {
             Expanded(
               flex: 5,
               child: Container(
-                padding: const EdgeInsets.fromLTRB(4, 0, 6, 2),
+                width: 200,
+                padding: const EdgeInsets.fromLTRB(4, 0, 6, 20),
                 child: Column(
                   children: [
                     Expanded(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _buildDialButton(1),
                           _buildDialButton(2),
@@ -147,7 +148,7 @@ class _DialPageState extends State<DialPage> {
                     ),
                     Expanded(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _buildDialButton(4),
                           _buildDialButton(5),
@@ -157,7 +158,7 @@ class _DialPageState extends State<DialPage> {
                     ),
                     Expanded(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _buildDialButton(7),
                           _buildDialButton(8),
@@ -167,7 +168,7 @@ class _DialPageState extends State<DialPage> {
                     ),
                     Expanded(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _buildDialButton('*'),
                           _buildDialButton(0),
@@ -177,7 +178,7 @@ class _DialPageState extends State<DialPage> {
                     ),
                     Expanded(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(width: 80),
                           InkWell(
@@ -187,8 +188,9 @@ class _DialPageState extends State<DialPage> {
                                   arguments: {"phoneNumber": this.phoneNumber});
                             },
                             child: Container(
-                              width: 70,
-                              height: 70,
+                              width: 65,
+                              height: 65,
+                              margin: EdgeInsets.fromLTRB(17, 0, 0, 0),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.green,
@@ -199,8 +201,9 @@ class _DialPageState extends State<DialPage> {
                           InkWell(
                             onTap: _clearPhoneNumber,
                             child: Container(
-                              width: 70,
-                              height: 70,
+                              width: 65,
+                              height: 65,
+                              margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.red,
@@ -252,8 +255,8 @@ class _DialPageState extends State<DialPage> {
       var dio = Dio();
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.get(
-        'http://localhost:9000/phone3/search/$phoneNumber',
-        // 'http://43.200.172.144:9000/phone3/search/$phoneNumber',
+        // 'http://localhost:9000/phone3/search/$phoneNumber',
+        'http://43.200.172.144:9000/phone3/search/$phoneNumber',
       );
 
       if (response.statusCode == 200) {

@@ -77,14 +77,14 @@ class _StarListPageState extends State<_StarListPage> {
                           child: Row(
                             children: [
                               Container(
-                                width: 310,
+                                width: 300,
                                 child: TextButton(
                                   onPressed: (){
                                     // print("상세보기");
                                     Navigator.pushNamed(
                                         context, "/read",
                                         arguments: {
-                                          "personNo": "${snapshot.data![index].personNo}"
+                                          "personNo": snapshot.data![index].personNo
                                         });
                                   },
                                   child: Align(
@@ -130,8 +130,8 @@ Future<List<PersonVo>> getStarList() async {
     var dio = Dio(); //new생략
     dio.options.headers['Content-Type'] = 'application/json';
     final response = await dio.get(
-      // 'http://43.200.172.144:9000/phone3/list/star',
-      'http://localhost:9000/phone3/list/star'
+      'http://43.200.172.144:9000/phone3/list/star',
+      // 'http://localhost:9000/phone3/list/star'
     );
     if (response.statusCode == 200) {
       //리스트생성
@@ -154,8 +154,8 @@ void starClick(int no) async{
     var dio = Dio(); //new생략
     dio.options.headers['Content-Type'] = 'application/json';
     final response = await dio.post(
-      // 'http://43.200.172.144:9000/phone3/list/star/${no}',
-        'http://localhost:9000/phone3/list/star/${no}'
+      'http://43.200.172.144:9000/phone3/list/star/${no}',
+        // 'http://localhost:9000/phone3/list/star/${no}'
     );
     if (response.statusCode == 200) {
     } else {

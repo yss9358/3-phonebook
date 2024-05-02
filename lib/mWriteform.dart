@@ -160,7 +160,7 @@ class _WriteformState extends State<_Writeform> {
                   ),
                 ]),
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 220, 0, 0),
+                  margin: EdgeInsets.fromLTRB(0, 150, 0, 0),
                   padding: EdgeInsets.all(10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -223,8 +223,8 @@ class _WriteformState extends State<_Writeform> {
       var dio = Dio();
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.get(
-        'http://localhost:9000/phone3/teamlist',
-        // 'http://43.200.172.144:9000/phone3/teamlist',
+        // 'http://localhost:9000/phone3/teamlist',
+        'http://43.200.172.144:9000/phone3/teamlist',
       );
 
       if (response.statusCode == 200) {
@@ -257,8 +257,8 @@ class _WriteformState extends State<_Writeform> {
       bool isStarred = isFavorite;;
       // 서버 요청
       final response = await dio.post(
-        'http://localhost:9000/phone3/insert',
-        // 'http://43.200.172.144:9000/phone3/insert',
+        // 'http://localhost:9000/phone3/insert',
+        'http://43.200.172.144:9000/phone3/insert',
         data: {
           'name': _nameController.text,
           'hp': _hpController.text,

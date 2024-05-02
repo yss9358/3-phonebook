@@ -83,7 +83,7 @@ class _GroupInPageState extends State<_GroupInPage> {
                             child: Row(
                               children: [
                                 Container(
-                                  width: 310,
+                                  width: 303,
                                   child: TextButton(
                                     onPressed: () {
                                       print(
@@ -91,8 +91,8 @@ class _GroupInPageState extends State<_GroupInPage> {
                                       Navigator.pushNamed(
                                           context, "/read",
                                           arguments: {
-                                            "personNo": "${snapshot.data![index]
-                                                .personNo}"
+                                            "personNo": snapshot.data![index]
+                                                .personNo
                                           });
                                     },
                                     child: Align(
@@ -146,8 +146,8 @@ Future<List<PersonVo>> getGroupList(int no) async {
     var dio = Dio(); //new생략
     dio.options.headers['Content-Type'] = 'application/json';
     final response = await dio.get(
-      // 'http://43.200.172.144:9000/phone3/list/group/${no}',
-      'http://localhost:9000/phone3/list/group/${no}'
+      'http://43.200.172.144:9000/phone3/list/group/${no}',
+      // 'http://localhost:9000/phone3/list/group/${no}'
     );
     if (response.statusCode == 200) {
       // print(response.data);
@@ -172,8 +172,8 @@ void starClick(int no) async{
     var dio = Dio(); //new생략
     dio.options.headers['Content-Type'] = 'application/json';
     final response = await dio.post(
-      // 'http://43.200.172.144:9000/phone3/list/star/${no}',
-      'http://localhost:9000/phone3/list/star/${no}'
+      'http://43.200.172.144:9000/phone3/list/star/${no}',
+      // 'http://localhost:9000/phone3/list/star/${no}'
     );
     if (response.statusCode == 200) {
       // print(response.data);

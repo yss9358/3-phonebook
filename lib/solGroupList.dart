@@ -114,7 +114,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                         children: [
                                           Container(
                                             width: 100,
-                                            height: 20,
+                                            height: 40,
                                             child: TextButton(
                                                 onPressed: () {
                                                   insertTeam();
@@ -127,7 +127,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                           ),
                                           Container(
                                             width: 100,
-                                            height: 30,
+                                            height: 40,
                                             child: TextButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
@@ -146,7 +146,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                       ),
 
                       Container(
-                        height: 570,
+                        height: 505,
                         child: ListView.builder(
                             physics: AlwaysScrollableScrollPhysics(),
                             itemCount: snapshot.data!.length,
@@ -164,7 +164,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      width: 215,
+                                      width: 190,
                                       child: TextButton(
                                         onPressed: () {
                                           Navigator.pushNamed(
@@ -188,10 +188,11 @@ class _GroupListPageState extends State<_GroupListPage> {
                                     ),
                                     Container(
                                       margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                      width: 30,
                                       child: Text(
                                         "(${snapshot.data![index].count})",
                                         style: TextStyle(
-                                            fontSize: 15,
+                                            fontSize: 14,
                                             color: Color(0xffd6d6d6)
                                         ),
                                       ),
@@ -208,16 +209,17 @@ class _GroupListPageState extends State<_GroupListPage> {
                                                     backgroundColor: Color(0xffffffff),
                                                     title: Container(
                                                       alignment: Alignment.center,
-                                                      height: 40,
-                                                      child: Text('그룹 수정',style: TextStyle(fontSize: 23),),
+                                                      height: 25,
+                                                      child: Text('그룹 수정',style: TextStyle(fontSize: 21),),
                                                     ),
                                                     content: Container(
                                                       height: 100,
+                                                      width: 30,
                                                       alignment: Alignment.center,
                                                       child: Column(
                                                         children: [
                                                           TextFormField(
-                                                            style: TextStyle(fontSize: 23),
+                                                            style: TextStyle(fontSize: 18),
                                                             maxLength: 10,
                                                             controller: _groupNameController,
                                                             textAlign: TextAlign.center,
@@ -230,14 +232,13 @@ class _GroupListPageState extends State<_GroupListPage> {
                                                     ),
                                                     actions: [
                                                       Container(
-                                                        height: 20,
                                                         child: Row(
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           crossAxisAlignment: CrossAxisAlignment.center,
                                                           children: [
                                                             Container(
                                                               width: 100,
-                                                              height: 30,
+                                                              height: 50,
                                                               child: TextButton(onPressed: (){
                                                                 updateTeam(snapshot.data![index].teamNo!);
                                                                 setState(() {
@@ -249,7 +250,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                                             ),
                                                             Container(
                                                               width: 100,
-                                                              height: 30,
+                                                              height: 50,
                                                               child: TextButton(onPressed: (){
                                                                 Navigator.pop(context);
                                                               },
@@ -348,8 +349,8 @@ class _GroupListPageState extends State<_GroupListPage> {
       var dio = Dio();
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.put(
-        // 'http://43.200.172.144:9000/phone3/teams',
-        'http://localhost:9000/phone3/teams',
+        'http://43.200.172.144:9000/phone3/teams',
+        // 'http://localhost:9000/phone3/teams',
         data: {
           'teamName' : _groupNameController.text,
           'teamNo' : no
@@ -377,8 +378,8 @@ class _GroupListPageState extends State<_GroupListPage> {
       var dio = Dio();
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.delete(
-        // 'http://43.200.172.144:9000/phone3/teams/${no}',
-        'http://localhost:9000/phone3/teams/${no}',
+        'http://43.200.172.144:9000/phone3/teams/${no}',
+        // 'http://localhost:9000/phone3/teams/${no}',
       );
       if(response.statusCode == 200){
         if(response.data['apiData'] == 1){
@@ -404,8 +405,8 @@ class _GroupListPageState extends State<_GroupListPage> {
       var dio = Dio();
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.post (
-        // 'http://43.200.172.144:9000/phone3/teams',
-        'http://localhost:9000/phone3/teams',
+        'http://43.200.172.144:9000/phone3/teams',
+        // 'http://localhost:9000/phone3/teams',
         data:{
           'teamName' : _groupNameController.text
         }
@@ -426,8 +427,8 @@ class _GroupListPageState extends State<_GroupListPage> {
       var dio = Dio();
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.get(
-        // 'http://43.200.172.144:9000/phone3/teams',
-        'http://localhost:9000/phone3/teams'
+        'http://43.200.172.144:9000/phone3/teams',
+        // 'http://localhost:9000/phone3/teams'
       );
 
       if (response.statusCode == 200) {

@@ -142,7 +142,7 @@ class _MainListPageState extends State<_MainListPage> {
                           child: Row(
                             children: [
                               Container(
-                                width: 310,
+                                width: 300,
                                 child: TextButton(
                                   onPressed: () {
                                     // print("${snapshot.data![index].name}");
@@ -195,8 +195,8 @@ class _MainListPageState extends State<_MainListPage> {
       var dio = Dio(); //new생략
       dio.options.headers['Content-Type'] = 'application/json';
       final response = await dio.get(
-          // 'http://43.200.172.144:9000/phone3/list/main',
-          'http://localhost:9000/phone3/list/main'
+          'http://43.200.172.144:9000/phone3/list/main',
+          // 'http://localhost:9000/phone3/list/main'
       );
       if (response.statusCode == 200) {
 
@@ -222,8 +222,8 @@ Future<List<PersonVo>> getfindList(String keyword) async {
     var dio = Dio(); //new생략
     dio.options.headers['Content-Type'] = 'application/json';
     final response = await dio.post(
-      // 'http://43.200.172.144:9000/phone3/list/find',
-      'http://localhost:9000/phone3/list/find',
+      'http://43.200.172.144:9000/phone3/list/find',
+      // 'http://localhost:9000/phone3/list/find',
       // data: _fineController.text,
       data: keyword,
     );
