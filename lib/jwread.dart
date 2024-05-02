@@ -81,15 +81,11 @@ class _ReadPageState extends State<_ReadPage> {
   //미래의 정우성 데이터가 담길거야
   late Future<PersonVo> personVoFuture;
 
-  bool isFavorite = false;
-
-
   //초기화함수 (1번만 실행됨)
   @override
   void initState() {
     super.initState();
 
-    bool isFavorite = false;
   }
 
 //화면그리기
@@ -199,12 +195,15 @@ class _ReadPageState extends State<_ReadPage> {
                   SizedBox(width: 10),
                   ElevatedButton.icon(
                     onPressed: () {
-                      star(personNo);
-                      isFavorite = !isFavorite;
+                      // bool star = snapshot.data!.star!;
+                      setState(() {
+                        star(personNo);
+                        snapshot.data!.star = !snapshot.data!.star!;
+                      });
                     },
                     icon: Icon(
                       Icons.favorite,
-                      color: _favorite(isFavorite), // 아이콘 색상
+                      color: snapshot.data!.star! ? Color(0xffff4040):Color(0xffd6d6d6), // 아이콘 색상
                     ),
                     label: Text(
                       "즐겨찾기",
@@ -374,6 +373,7 @@ Future<PersonVo> getPersonByNo(int personNo) async {
     /*----응답처리-------------------*/
     if (response.statusCode == 200) {
       // print(response.data); // json->map 자동변경
+
       return PersonVo.fromJson(response.data["apiData"]);
     } else {
       //접속실패 404, 502등등 api서버 문제
@@ -385,6 +385,7 @@ Future<PersonVo> getPersonByNo(int personNo) async {
   }
 
 } //getPersonByNo
+
 Future<void> star(int personNo) async {
   try {
     var dio = Dio(); //new생략
@@ -435,11 +436,4 @@ Future<PersonVo> deleteItem(int personNo) async {
     throw Exception('Failed to load person: $e');
   }
 
-}
-Color _favorite(bool isFavorite) {
-  if (isFavorite == true) {
-    return Color(0xffff4040);
-  } else {
-    return Color(0xff969696);
-  }
 }
