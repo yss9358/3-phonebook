@@ -84,7 +84,7 @@ class _StarListPageState extends State<_StarListPage> {
                                     Navigator.pushNamed(
                                         context, "/read",
                                         arguments: {
-                                          "personNo": "${snapshot.data![index].personNo}"
+                                          "personNo": snapshot.data![index].personNo
                                         });
                                   },
                                   child: Align(
