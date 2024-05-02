@@ -154,7 +154,7 @@ class _ReadPageState extends State<_ReadPage> {
                     onPressed: () {
                       Navigator.pushNamed(context, "/call",
                           arguments: {
-                            "hp": "${snapshot.data!.hp}"
+                            "phoneNumber": snapshot.data!.hp
                           });
                     },
                     icon: Icon(

@@ -14,11 +14,13 @@ class GroupList extends StatelessWidget {
         title:Text("그룹리스트"),
 
       ),
-      body: Container(
-        width: 414,
-        height: 680,
-        color: Color(0xffffffff),
-        child: _GroupListPage(),
+      body: SingleChildScrollView(
+        child: Container(
+          width: 414,
+          height: 630,
+          color: Color(0xffffffff),
+          child: _GroupListPage(),
+        ),
       ),
     );
   }

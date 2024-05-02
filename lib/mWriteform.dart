@@ -12,12 +12,15 @@ class Writeform extends StatelessWidget {
         backgroundColor: Color(0xffffffff),
         title: Text("등록폼"),
       ),
-      body: Container(
-        width: 414, // 고정된 가로 크기
-        height: 680, // 고정된 세로 크기
-        color: Color(0xffffffff),
-        child: _Writeform(),
+      body: SingleChildScrollView(
+        child: Container(
+          width: 414, // 고정된 가로 크기
+          // height: 680, // 고정된 세로 크기
+          color: Color(0xffffffff),
+          child: _Writeform(),
+        ),
       ),
+
     );
   }
 }
@@ -203,7 +206,7 @@ class _WriteformState extends State<_Writeform> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          minimumSize: Size(170, 60),
+                          minimumSize: Size(170,60),
                         ),
                       ),
                     ],

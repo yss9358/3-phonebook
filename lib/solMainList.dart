@@ -169,7 +169,7 @@ class _MainListPageState extends State<_MainListPage> {
                                     // print("${snapshot.data![index].hp}전화걸기");
                                     Navigator.pushNamed(context, "/call",
                                         arguments: {
-                                          "hp": "${snapshot.data![index].hp}"
+                                          "phoneNumber": snapshot.data![index].hp
                                         });
                                   },
                                   icon: Icon(Icons.call),
