@@ -25,4 +25,9 @@ class TeamVo {
       'count' : count
     };
   }
+
+  @override
+  String toString() {
+    return 'TeamVo{teamNo: $teamNo, teamName: $teamName, count: $count}';
+  }
 }

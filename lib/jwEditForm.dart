@@ -41,37 +41,40 @@ class _EditFormState extends State<_EditForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _hpController = TextEditingController();
 
-  String? _selectedGroup;
-  late Future<List<TeamVo>> teamListFuture;
-  late List<TeamVo> teamList;
   late Future<PersonVo> personVoFuture;
+  late Future<List<TeamVo>> teamListFuture;
+
+  late String? _selectedGroupNo;
+
+
+
+  late List<TeamVo> teamList;
+
 
   @override
   void initState() {
     super.initState();
-    _selectedGroup = null; // 초기값을 null로 설정
-    teamListFuture = getTeamList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // context를 안전하게 사용할 수 있는 첫 시점
+      final args = ModalRoute.of(context)!.settings.arguments as Map;
+      setState(() {
+        // 받아온 데이터를 상태 변수에 저장
+        personNo = args!['personNo'];
+      });
+
+      teamListFuture = getTeamList();
+      personVoFuture = getPersonByNo(personNo);
+
+    });
   }
+
 
   //화면에 그리기
   @override
   Widget build(BuildContext context) {
-    // ModalRoute를 통해 현재 페이지에 전달된 arguments를 가져옵니다.
-    late final args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    
-    if (args == null) {
-      // 예외 처리 또는 오류 메시지 표시
-      return Container(child: Text('전달된 인수가 없습니다.'));
-    }
-    // 'personNo' 키를 사용하여 값을 추출합니다.
-    final int personNo = args['personNo'];
-    personVoFuture = getPersonByNo(personNo);
 
-    print(personVoFuture.toString());
-
-    return FutureBuilder<List<TeamVo>>(
-      future: teamListFuture,
+    return FutureBuilder<PersonVo>(
+      future: personVoFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -80,14 +83,8 @@ class _EditFormState extends State<_EditForm> {
         } else if (!snapshot.hasData) {
           return Center(child: Text('데이터가 없습니다.'));
         } else {
-          //데이터가 있으면
-          teamList = snapshot.data!;
 
-          // 초기값 설정
-          // if (_selectedGroup == null) {
-          //   _selectedGroup = teamList.isNotEmpty ? teamList[0].teamName : null;
-          // }
-
+          print("personVoFuture");
           return Container(
             child: SingleChildScrollView(
               child: Padding(
@@ -150,31 +147,57 @@ class _EditFormState extends State<_EditForm> {
                         ),
                         SizedBox(width: 10),
                         Container(
-                          margin: EdgeInsets.fromLTRB(10, 0, 0, 10),
-                          width: 300,
-                          child: DropdownButtonFormField<String>(
-                            value: _selectedGroup,
-                            items: teamList.map((team) {
-                              return DropdownMenuItem<String>(
-                                value: team.teamName ?? '',
-                                child: Text(team.teamName ?? ''),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
+                            margin: EdgeInsets.fromLTRB(10, 0, 0, 10),
+                            width: 300,
+                            child:
+                            //리스트 드롭다운
+                            FutureBuilder<List<TeamVo>>(
+                                future: teamListFuture,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (snapshot.hasError) {
+                                    return Center(
+                                        child: Text('데이터를 불러오는 데 실패했습니다.'));
+                                  } else if (!snapshot.hasData) {
+                                    return Center(child: Text('데이터가 없습니다.'));
+                                  } else {
+                                    var teamList = snapshot.data!;
 
-                                _selectedGroup = value!;
+                                    return DropdownButtonFormField<String>(
+                                      value: _selectedGroupNo,
+                                      items: teamList.map((team) {
+                                        return DropdownMenuItem<String>(
+                                          value: "${team.teamNo!}",
+                                          child: Text(team.teamName ?? '',),
+                                        );
+                                      }).toList(),
 
-                            },
-                            // DropdownButtonFormField의 validator 추가
-                            validator: (value) {
-                              if (value == null ||
-                                  value.isEmpty ||
-                                  value == '그룹선택해주세요') {
-                                return '그룹을 선택해주세요.';
-                              }
-                              return null;
-                            },
-                          ),
+                                      onChanged: (String? newValue) {
+
+                                        setState(() {
+                                          _selectedGroupNo = newValue!;
+
+                                        });
+
+
+                                      },
+                                      // DropdownButtonFormField의 validator 추가
+                                      validator: (value) {
+                                        if (value == null ||
+                                            value.isEmpty ||
+                                            value == '그룹선택해주세요') {
+                                          return '그룹을 선택해주세요.';
+                                        }
+                                        return null;
+                                      },
+                                    );
+                                  }
+                                }
+
+                            )
                         ),
                       ],
                     ),
@@ -208,11 +231,15 @@ class _EditFormState extends State<_EditForm> {
                           ElevatedButton(
                             onPressed: () {
                               print("데이터 전송");
+
                               updatePerson(personNo);
+                              /*
                               Navigator.pushNamed(
                                 context,
                                 '/',
                               );
+                              */
+
                             },
                             child: Text(
                               "수정",
@@ -259,13 +286,13 @@ class _EditFormState extends State<_EditForm> {
 
       /*----응답처리-------------------*/
       if (response.statusCode == 200) {
-        print(response.data["apiData"]);
+        //print(response.data["apiData"]);
         PersonVo vo = PersonVo.fromJson(response.data["apiData"]);
-        print(vo.name);
+        //print(vo.name);
 
         _nameController.text = vo.name!;
         _hpController.text = vo.hp!;
-        _selectedGroup = vo.teamName!;
+        _selectedGroupNo = "${vo.teamNo!}";
 
         // print(response.data); // json->map 자동변경
         return PersonVo.fromJson(response.data["apiData"]);
@@ -293,12 +320,13 @@ class _EditFormState extends State<_EditForm> {
       print('수정할 사용자 번호: ${personNo}');
       print('수정할 사용자 이름: ${_nameController.text}');
       print('수정할 사용자 전화번호: ${_hpController.text}');
-      print('수정할 사용자 팀 이름: ${_selectedGroup}');
-      
+      print('수정할 사용자 팀 이름: ${_selectedGroupNo}');
 
-      int? selectedTeamNo = getTeamNoFromName(teamList, _selectedGroup ?? '');
+      print('aaaaa');
+      //int? selectedTeamNo = getTeamNoFromName(teamList, _selectedGroup ?? '');
 
-      print(selectedTeamNo);
+      print('??????');
+      //print(selectedTeamNo);
 
       // 서버 요청
       final response = await dio.put(
@@ -307,7 +335,7 @@ class _EditFormState extends State<_EditForm> {
           'personNo': personNo,
           'name': _nameController.text,
           'hp': _hpController.text,
-          'teamNo': selectedTeamNo,
+          'teamNo': int.parse(_selectedGroupNo!),
         },
       );
 
@@ -344,7 +372,9 @@ Future<List<TeamVo>> getTeamList() async {
         TeamVo teamVo = TeamVo.fromJson(response.data["apiData"][i]);
         teamList.add(teamVo);
       }
+      print("========================");
       print(teamList);
+      print("========================");
       return teamList;
     } else {
       throw Exception('api 서버 문제');
