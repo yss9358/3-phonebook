@@ -59,7 +59,7 @@ class _EditFormState extends State<_EditForm> {
       final args = ModalRoute.of(context)!.settings.arguments as Map;
       setState(() {
         // 받아온 데이터를 상태 변수에 저장
-        personNo = args!['personNo'];
+        personNo = args['personNo'];
       });
 
       teamListFuture = getTeamList();
@@ -281,7 +281,8 @@ class _EditFormState extends State<_EditForm> {
 
       // 서버 요청
       final response = await dio.get(
-        'http://localhost:9000/phone3/phones/${personNo}',
+        // 'http://localhost:9000/phone3/phones/${personNo}',
+        'http://43.200.172.144:9000/phone3/phones/${personNo}',
       );
 
       /*----응답처리-------------------*/
@@ -330,7 +331,8 @@ class _EditFormState extends State<_EditForm> {
 
       // 서버 요청
       final response = await dio.put(
-        'http://localhost:9000/phone3/phones/modify/${personNo}',
+        // 'http://localhost:9000/phone3/phones/modify/${personNo}',
+        'http://43.200.172.144:9000/phone3/phones/modify/${personNo}',
         data: {
           'personNo': personNo,
           'name': _nameController.text,
@@ -364,7 +366,10 @@ Future<List<TeamVo>> getTeamList() async {
   try {
     var dio = Dio();
     dio.options.headers['Content-Type'] = 'application/json';
-    final response = await dio.get('http://localhost:9000/phone3/teamlist');
+    final response = await dio.get(
+        // 'http://localhost:9000/phone3/teamlist',
+        'http://43.200.172.144:9000/phone3/teamlist'
+    );
 
     if (response.statusCode == 200) {
       List<TeamVo> teamList = [];

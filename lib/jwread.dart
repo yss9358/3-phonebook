@@ -369,7 +369,8 @@ Future<PersonVo> getPersonByNo(int personNo) async {
 
     // 서버 요청
     final response = await dio.get(
-      'http://localhost:9000/phone3/phones/${personNo}',
+      // 'http://localhost:9000/phone3/phones/${personNo}',
+      'http://43.200.172.144:9000/phone3/phones/${personNo}',
     );
 
     /*----응답처리-------------------*/
@@ -395,7 +396,8 @@ Future<void> star(int personNo) async {
     dio.options.headers['Content-Type'] = 'application/json';
 
     final response = await dio.put(
-      'http://localhost:9000/phone3/star',
+      // 'http://localhost:9000/phone3/star',
+      'http://43.200.172.144:9000/phone3/star',
       data: {
         'personNo': personNo
       },
@@ -422,7 +424,8 @@ Future<PersonVo> deleteItem(int personNo) async {
 
     // 서버 요청
     final response = await dio.get(
-      'http://localhost:9000/phone3/delete/${personNo}',
+      // 'http://localhost:9000/phone3/delete/${personNo}',
+      'http://43.200.172.144:9000/phone3/delete/${personNo}',
     );
 
     /*----응답처리-------------------*/
