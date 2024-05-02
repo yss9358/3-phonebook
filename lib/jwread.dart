@@ -195,8 +195,9 @@ class _ReadPageState extends State<_ReadPage> {
                   SizedBox(width: 10),
                   ElevatedButton.icon(
                     onPressed: () {
-                      star(personNo);
+                      // bool star = snapshot.data!.star!;
                       setState(() {
+                        star(personNo);
                         snapshot.data!.star = !snapshot.data!.star!;
                       });
                     },
