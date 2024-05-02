@@ -6,9 +6,15 @@ import 'dart:async';
 class ReadPage extends StatelessWidget {
   const ReadPage({super.key});
 
+  //사용자번호
+
+
   //기본레이아웃
   @override
   Widget build(BuildContext context) {
+    late final args = ModalRoute.of(context)?.settings.arguments as Map?;
+    late int personNo = args!['personNo'];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xffffffff), // 앱 바 배경색
@@ -20,10 +26,19 @@ class ReadPage extends StatelessWidget {
               padding: EdgeInsets.all(10),
               child: ElevatedButton(
                 onPressed: () {
+                  print("=============================");
+                  print(personNo);
+                  print("=============================");
+
                   Navigator.pushNamed(
-                    context,
-                    '/editform',
+                      context,
+                      '/editform',
+                      arguments: {
+                        'personNo':personNo,
+                      }
                   );
+
+
                 },
                 child: Text(
                   "편집",
@@ -68,6 +83,7 @@ class _ReadPageState extends State<_ReadPage> {
 
   bool isFavorite = false;
 
+
   //초기화함수 (1번만 실행됨)
   @override
   void initState() {
@@ -87,7 +103,7 @@ class _ReadPageState extends State<_ReadPage> {
 
     //late final args = ModalRoute.of(context)!.settings.arguments as Map;
     // 'personNo' 키를 사용하여 값을 추출합니다.
-    late final personNo = args['personNo'].toString();
+    late int personNo = args['personNo'];
 
     //personNo의 데이터를 서버로 부터 가져오기
     personVoFuture = getPersonByNo(personNo);
@@ -183,7 +199,7 @@ class _ReadPageState extends State<_ReadPage> {
                   SizedBox(width: 10),
                   ElevatedButton.icon(
                     onPressed: () {
-                      star(int.parse(personNo));
+                      star(personNo);
                       isFavorite = !isFavorite;
                     },
                     icon: Icon(
@@ -210,14 +226,14 @@ class _ReadPageState extends State<_ReadPage> {
                 width: 414,
                 height: 100,
                 child:
-                    _buildInfoBox("전화번호", "${snapshot.data!.hp}"), // 전화번호 정보 박스
+                _buildInfoBox("전화번호", "${snapshot.data!.hp}"), // 전화번호 정보 박스
               ),
               SizedBox(height: 20),
               Container(
                 width: 414,
                 height: 100,
                 child:
-                    _buildInfoBox("그룹", "${snapshot.data!.teamName}"), // 그룹 정보 박스
+                _buildInfoBox("그룹", "${snapshot.data!.teamName}"), // 그룹 정보 박스
               ),
               SizedBox(height: 30),
               Row(
@@ -324,7 +340,7 @@ class _ReadPageState extends State<_ReadPage> {
           Text(
             title,
             style:
-                TextStyle(fontSize: 20, fontWeight: FontWeight.bold), // 제목 스타일
+            TextStyle(fontSize: 20, fontWeight: FontWeight.bold), // 제목 스타일
           ),
           SizedBox(height: 5),
           Text(
@@ -338,7 +354,7 @@ class _ReadPageState extends State<_ReadPage> {
 }
 
 //3번(정우성) 데이타 가져오기
-Future<PersonVo> getPersonByNo(String personNo) async {
+Future<PersonVo> getPersonByNo(int personNo) async {
   // print(personNo);
   // print("데이터 가져오는중 ");
 
@@ -389,7 +405,7 @@ Future<void> star(int personNo) async {
   }
 }
 
-Future<PersonVo> deleteItem(String personNo) async {
+Future<PersonVo> deleteItem(int personNo) async {
   print(personNo);
   print("삭제API 실행 ");
 

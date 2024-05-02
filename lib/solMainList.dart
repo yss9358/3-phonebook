@@ -148,8 +148,7 @@ class _MainListPageState extends State<_MainListPage> {
                                     // print("${snapshot.data![index].name}");
                                     Navigator.pushNamed(context, "/read",
                                         arguments: {
-                                          "personNo":
-                                              "${snapshot.data![index].personNo}"
+                                          "personNo": snapshot.data![index].personNo
                                         });
                                   },
                                   child: Align(
