@@ -244,7 +244,7 @@ class _GroupListPageState extends State<_GroupListPage> {
                                                               child: TextButton(onPressed: (){
                                                                 updateTeam(snapshot.data![index].teamNo!);
                                                                 setState(() {
-                                                                  // print('수정 성공');
+
                                                                 });
                                                                 Navigator.pop(context);
                                                               },
@@ -361,8 +361,9 @@ class _GroupListPageState extends State<_GroupListPage> {
 
       if(response.statusCode == 200){
         if(response.data.apiData == 1){
+          setState(() {
 
-
+          });
         } else {
           throw Exception('api 서버 문제');
         }
@@ -415,6 +416,9 @@ class _GroupListPageState extends State<_GroupListPage> {
         }
       );
       if(response.statusCode == 200){
+        setState(() {
+
+        });
 
       } else {
         throw Exception('api 서버 문제');
